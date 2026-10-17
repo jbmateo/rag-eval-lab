@@ -223,3 +223,27 @@ def ci_baseline() -> None:
     if not run_id:
         fail("No [ci] baseline_run set in evallab.toml")
     typer.echo(run_id)
+
+
+spot_app = typer.Typer(no_args_is_help=True, help="Check the judge against hand labels.")
+app.add_typer(spot_app, name="spotcheck")
+
+
+@spot_app.command("sample")
+def spotcheck_sample(run_ids: list[str], n: int = typer.Option(30, "--n")) -> None:
+    """Write a CSV of judged cases, stratified by model, for hand labelling."""
+    from evallab.spotcheck import sample
+
+    settings = load_settings()
+    path = run_guarded(lambda: sample(_store(settings), settings, run_ids, n=n))
+    typer.echo(f"Wrote {path}; fill human_correct (yes/no) and human_unsupported, then run `evallab spotcheck score {path}`")
+
+
+@spot_app.command("score")
+def spotcheck_score(csv_path: Path) -> None:
+    """Judge-vs-human agreement and Cohen's kappa from a labelled CSV."""
+    import json
+
+    from evallab.spotcheck import score
+
+    typer.echo(json.dumps(run_guarded(lambda: score(csv_path)), indent=1))
