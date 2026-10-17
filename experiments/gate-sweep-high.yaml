@@ -1,0 +1,15 @@
+name: gate-sweep-high
+description: >-
+  EXPLORATORY (not pre-registered) — written after gate-sweep showed every question's best match scores 0.60–0.82,
+  so thresholds of 0.25–0.45 never gate. Tests whether the similarity gate can separate answerable from
+  unanswerable questions on this corpus at all.
+hypothesis: >-
+  Exploratory question, written after seeing the max-similarity distribution: does any threshold between 0.65 and
+  0.80 raise refusal of unanswerable questions without blocking answerable ones? No pass/fail claim.
+system: rag_studio
+dataset: lumen@v1
+llm: true
+judge: true
+base: {model: claude-haiku-5-5}
+grid:
+  min_similarity: [0.65, 0.70, 0.75, 0.80]
