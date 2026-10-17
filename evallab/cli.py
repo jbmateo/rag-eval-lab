@@ -247,3 +247,13 @@ def spotcheck_score(csv_path: Path) -> None:
     from evallab.spotcheck import score
 
     typer.echo(json.dumps(run_guarded(lambda: score(csv_path)), indent=1))
+
+
+@app.command()
+def export(out: Path = typer.Option(None, "--out", help="Directory (default: [paths] export)")) -> None:
+    """Write dashboard JSON from the results store."""
+    from evallab.export import export_all
+
+    settings = load_settings()
+    files = run_guarded(lambda: export_all(_store(settings), settings, out or settings.export_dir))
+    typer.echo(f"Exported {len(files)} files to {out or settings.export_dir}")

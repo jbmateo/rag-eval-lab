@@ -31,7 +31,6 @@ def test_run_compare_export_e2e(git_lab, monkeypatch):
                           "--out", "reports/fake.md"])
     assert md.exit_code == 0 and (git_lab.root / "reports/fake.md").read_text().startswith("# Compare")
 
-    pytest.skip("export arrives in Task 14")
     r = cli.invoke(app, ["export"])
     assert r.exit_code == 0, r.output
     index = json.loads((git_lab.export_dir / "index.json").read_text())
