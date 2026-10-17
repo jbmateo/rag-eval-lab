@@ -402,6 +402,7 @@
   "stable_fail": 1,
   "stable_pass": 1
  },
+ "errored_after_pass": 1,
  "mcnemar_p": 1.0,
  "mde": 0.8231226301089837,
  "n_compared": 9,

@@ -103,6 +103,8 @@ export function compareRuns(base: RunLike, baseRows: CaseRow[], cand: RunLike, c
   cases.sort((x, y) => STATUS_ORDER.indexOf(x.status) - STATUS_ORDER.indexOf(y.status)
     || (x.case_id < y.case_id ? -1 : x.case_id > y.case_id ? 1 : 0));
 
+  const erroredAfterPass = shared.filter((cid) => bBy.get(cid)!.status === "ok" && bBy.get(cid)!.pass
+    && cBy.get(cid)!.status === "error").length;
   const count = (s: string) => cases.filter((e) => e.status === s).length;
   const counts = { improved: count("improved"), regressed: count("regressed"), stable_pass: count("stable_pass"),
     stable_fail: count("stable_fail"), not_comparable: count("not_comparable") };
@@ -143,6 +145,6 @@ export function compareRuns(base: RunLike, baseRows: CaseRow[], cand: RunLike, c
     other: Object.fromEntries(OTHER_METRICS.map((m) => [m, { base: orNull(bs[m]), cand: orNull(cs[m]) }])),
     mcnemar_p: mcnemarExact(counts.improved, counts.regressed),
     mde: mdePaired(pairs.length, counts.improved + counts.regressed),
-    counts, by_tag: byTag, cases,
+    counts, errored_after_pass: erroredAfterPass, by_tag: byTag, cases,
   };
 }

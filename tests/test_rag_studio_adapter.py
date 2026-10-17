@@ -56,6 +56,12 @@ def test_retrieval_only_trace(studio, lumen):
     assert {c.document for c in t.retrieved} <= {p.name for p in lumen.corpus.files}
 
 
+def test_trace_carries_chunk_location(studio, lumen):
+    """Review #4: the judge needs the section heading the answering model saw."""
+    t = studio.answer(_q(lumen).question, studio.config_schema()(), llm=False)
+    assert all(c.location for c in t.retrieved)
+
+
 def test_llm_trace_mapping(studio, lumen):
     cfg = studio.config_schema()(min_similarity=0.0)
     t = studio.answer(_q(lumen).question, cfg, llm=True)
@@ -93,10 +99,10 @@ def test_would_hit_cache_follows_studio_cache(settings, lumen, tmp_path):
 def test_version_reports_dirty(studio, monkeypatch):
     calls = {"rev-parse": "abc1234", "status": "", "diff": "diff text"}
     monkeypatch.setattr(studio, "_git", lambda *args: calls[args[0]])
-    assert studio.version() == "rag-studio@abc1234"
+    assert studio.version() == "rag-studio@abc1234+embedder:hash"   # review #3b: embedder is part of identity
     calls["status"] = " M app/x.py"
     v = studio.version()
-    assert v.startswith("rag-studio@abc1234+dirty:") and len(v.split(":")[1]) == 8
+    assert v.startswith("rag-studio@abc1234+dirty:") and len(v.split(":")[1].split("+")[0]) == 8 and v.endswith("+embedder:hash")
 
 
 @pytest.mark.slow

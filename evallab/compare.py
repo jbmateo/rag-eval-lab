@@ -88,6 +88,8 @@ def compare_runs(base: dict, base_rows: list[dict], cand: dict, cand_rows: list[
         cases.append(entry)
     cases.sort(key=lambda e: (STATUS_ORDER.index(e["status"]), e["case_id"]))
 
+    errored_after_pass = sum(1 for cid in shared if b_by[cid]["status"] == "ok" and b_by[cid]["pass"]
+                             and c_by[cid]["status"] == "error")
     counts = {s: sum(1 for e in cases if e["status"] == s) for s in
               ["improved", "regressed", "stable_pass", "stable_fail", "not_comparable"]}
     rr = [(b, c) for b, c in pairs if b["metrics"].get("rr") is not None and c["metrics"].get("rr") is not None]
@@ -124,6 +126,7 @@ def compare_runs(base: dict, base_rows: list[dict], cand: dict, cand_rows: list[
         "mcnemar_p": mcnemar_exact(counts["improved"], counts["regressed"]),
         "mde": mde_paired(len(pairs), counts["improved"] + counts["regressed"]),
         "counts": counts,
+        "errored_after_pass": errored_after_pass,
         "by_tag": by_tag,
         "cases": cases,
     }
@@ -131,9 +134,12 @@ def compare_runs(base: dict, base_rows: list[dict], cand: dict, cand_rows: list[
 
 def check_gate(report: dict, gate: GateSpec) -> list[str]:
     fails = []
-    n_reg = report["counts"]["regressed"]
-    if gate.max_regressed is not None and n_reg > gate.max_regressed:
-        fails.append(f"regressed {n_reg} > {gate.max_regressed}")
+    if report["n_compared"] == 0:
+        fails.append("no paired cases to compare")
+    n_reg, n_err = report["counts"]["regressed"], report["errored_after_pass"]
+    if gate.max_regressed is not None and n_reg + n_err > gate.max_regressed:
+        what = f"regressed {n_reg}" + (f" + errored {n_err}" if n_err else "")
+        fails.append(f"{what} > {gate.max_regressed}")
     delta = report["summary"]["accuracy"]["delta"]
     if gate.min_accuracy_delta is not None and delta is not None and delta < gate.min_accuracy_delta:
         fails.append(f"accuracy delta {delta:+.3f} < {gate.min_accuracy_delta:+.3f}")

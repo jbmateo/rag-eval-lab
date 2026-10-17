@@ -29,8 +29,8 @@ experiments use hit@8 over the 40 answerable questions instead.
 | Gate | Does the regression gate catch a plausible bad change? | **Yes** — 5 regressed cases, exit 1 |
 | Explore | Can a higher similarity threshold help at all? | **No** — it only blocks answerable questions |
 
-The most useful result is not on this list: **the judge is the noisiest part of the measurement** (see
-[Judge reliability](#judge-reliability)).
+The most useful result is not on this list: **the judge was the weakest part of the measurement** — it was not
+shown the section headers the answering model saw (see [Judge reliability](#judge-reliability)).
 
 ## H1 — hybrid vs single-mode retrieval (retrieval only, $0)
 
@@ -151,7 +151,9 @@ cost per case.* The probe measured Sonnet at ~$0.011 a case, so the full dataset
 McNemar p = 0.73 (5 improved, 3 regressed); the smallest change this sample can detect is about 13 points.
 Haiku is within 5 points — it scored higher — at 5.7% of the cost, so **H5 holds**, and the right reading is that the
 two models are indistinguishable on this task at n = 60 while Haiku costs 18× less
-([report](reports/h5-sonnet-vs-haiku.md)). **What changed because of it:** Haiku is the sensible default answering
+([report](reports/h5-sonnet-vs-haiku.md)). These verdicts are under judge rubric `v1`; 4 of the 8 flipped cases
+are the version-header defect described under [Judge reliability](#judge-reliability), two against each model.
+**What changed because of it:** Haiku is the sensible default answering
 model for RAG Studio on this kind of corpus.
 
 ## H6 — a terse, cite-everything prompt (Haiku, $0.04)
@@ -166,22 +168,30 @@ least 5 points lower than with the default prompt, and the answer rate is not mo
 | accuracy (n=60) | 91.7% | 93.3% | +1.7 pts |
 
 Both clauses hold, exactly at the threshold, so **H6 holds as registered** — but the interval reaches zero and the
-difference is two cases, which the judge noise described below could produce on its own. Treat it as a lead to
+difference is two cases, which the judge-input defect described below could produce on its own. Treat it as a lead to
 re-test on a larger dataset, not a result ([report](reports/h6-prompt.md)).
 
 ## Judge reliability
 
-Comparing near-identical answers across runs shows the judge's `unsupported_claims` count is inconsistent. In H5,
-two of the three "regressions" are answers that are almost word for word the same as the passing ones, failed
-because the judge counted a release version label as unsupported in one run and accepted it in the other (q036,
-q044); a third verdict's reasoning contradicts itself (q020: "…so it is supported … counted conservatively as one").
-Because a case fails on a single unsupported claim, this noise moves accuracy case by case.
+Comparing near-identical answers across runs exposed a **defect in what the judge is shown**, not just noise. The
+answering model sees each passage with a header naming its document and section (for release notes, the
+section *is* the version, e.g. `## v3.3.1`); rubric `v1` showed the judge only the passage text. So when an answer
+correctly named a release version taken from that header, the judge counted it as an unsupported claim. This
+accounts for 4 of H5's 8 flipped cases (q036 and q044 for Haiku, q006 and q023 for Sonnet), including two of the
+three "regressions". Separately, one verdict's reasoning contradicts itself (q020: "…so it is supported … counted
+conservatively as one") — that one is genuine noise. Because a case fails on a single unsupported claim, both
+effects move accuracy case by case.
 
-A hand-labelled spot check is prepared: 30 judged answers, 15 from each model, in
+**Fix:** rubric `v2` shows the judge each cited passage's document and section header, exactly as the answering
+model saw it, plus what a partial answer says is missing, and the rubric says header facts count as stated. `v1`
+is kept byte for byte so the results above stay reproducible from the committed cache. Re-judging H5 and H6 under
+`v2` re-uses every cached answer and costs about $0.03 (judge calls only); **it has not been run yet**, so the H5
+and H6 numbers above are under `v1`, with this defect.
+
+A hand-labelled spot check is also prepared: 30 judged answers, 15 from each model, in
 [`spotcheck/2026-10-18-570cb6-16143c.csv`](spotcheck/2026-10-18-570cb6-16143c.csv). **Agreement and Cohen's κ are
-pending the hand labels** and will be added here. Until then, every accuracy difference smaller than a few cases
-should be read as within judge noise. Next steps, in order of cost: score the spot check; re-judge at higher effort
-(cached answers make this judge-only); require two consistent verdicts before a case fails.
+pending the hand labels.** Until both are done, every accuracy difference smaller than a few cases should be read
+as within judge error.
 
 ## Limitations
 

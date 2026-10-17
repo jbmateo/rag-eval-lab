@@ -179,3 +179,53 @@ def test_summary_has_accuracy_ci(write_experiment, git_lab, store):
     s = out.records[0].summary
     lo, hi = s["accuracy_ci"]
     assert lo <= s["accuracy"] <= hi
+
+
+# --- final-review fixes ------------------------------------------------------------------------------
+
+class KeyedJudge(FakeJudge):
+    """A judge that bills and needs a key, with nothing cached."""
+    needs_api_key = True
+    model = "fake-model"
+
+
+def test_cached_answers_still_estimate_judge_calls(write_experiment, git_lab, store):
+    """Review #1: cached system answers do not make a run free if the judge has not seen them."""
+    p = write_experiment("sweep", LLM_EXP)
+    with pytest.raises(RunRefused, match="ANTHROPIC_API_KEY"):
+        run_experiment(p, git_lab, store, system=NeedsKey(all_cached=True), judge=KeyedJudge(), pricing=PRICING,
+                       yes=True, echo=lambda *_: None)
+    keyed = git_lab.model_copy(update={"anthropic_api_key": "k"})
+    out = run_experiment(p, keyed, store, system=NeedsKey(all_cached=True), judge=KeyedJudge(), pricing=PRICING,
+                         dry_run=True, echo=lambda *_: None)
+    assert all(e.uncached_system == 0 and e.uncached_judge > 0 and e.usd > 0 for e in out.estimates)
+    with pytest.raises(RunRefused, match="Declined"):
+        run_experiment(p, keyed, store, system=NeedsKey(all_cached=True), judge=KeyedJudge(), pricing=PRICING,
+                       confirm=lambda _: False, echo=lambda *_: None)
+
+
+class FailingJudge(FakeJudge):
+    def judge(self, case, trace, cited):
+        if case.id == "f01":
+            raise RuntimeError("judge API down")
+        return super().judge(case, trace, cited)
+
+
+def test_judge_failure_keeps_system_spend(write_experiment, git_lab, store):
+    """Review #2: a paid system call is ledgered even when the judge then fails."""
+    p = write_experiment("sweep", LLM_EXP)
+    run_experiment(p, git_lab, store, system=FakeSystem(), judge=FailingJudge(), pricing=PRICING, yes=True,
+                   echo=lambda *_: None)
+    run = store.find_run("sweep", "quality=0.9")
+    row = next(r for r in store.case_rows(run.run_id) if r["case_id"] == "f01")
+    assert row["status"] == "error" and "judge API down" in row["error"]
+    assert row["cost_spent_system"] > 0
+    assert any(l["case_id"] == "f01" and l["role"] == "system" for l in store.ledger_rows(run.run_id))
+
+
+def test_run_id_separates_llm_without_judge(write_experiment, git_lab, store):
+    """Review #3a: an LLM run without a judge never reuses a retrieval-only run with the same config."""
+    free = plan_runs(write_experiment("free", FREE_EXP), git_lab, store, FakeSystem())
+    llm_only = plan_runs(write_experiment("llm", FREE_EXP.replace("name: free", "name: llm") + "llm: true\nhypothesis: h\n"),
+                         git_lab, store, FakeSystem())
+    assert {p.run_id for p in free}.isdisjoint({p.run_id for p in llm_only})

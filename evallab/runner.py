@@ -67,7 +67,10 @@ class RunOutcome:
 
 
 def _judge_identity(exp: Experiment, settings: Settings) -> tuple[str, str]:
-    return (settings.judge_model, settings.judge_rubric_version) if exp.judge else ("none", "none")
+    """Part of the run id. Distinguishes judged, LLM-without-judge and retrieval-only runs of one config."""
+    if exp.judge:
+        return settings.judge_model, settings.judge_rubric_version
+    return ("none-llm", "none") if exp.llm else ("none", "none")
 
 
 def plan_runs(exp_path: Path, settings: Settings, store: Store, system: RAGSystem, force: bool = False) -> list[PlannedRun]:
@@ -121,18 +124,24 @@ def estimate(p: PlannedRun, store: Store, pricing: Pricing, system: RAGSystem, j
     if not p.experiment.llm:
         return Estimate(p.label, p.run_id, len(todo), 0, 0, 0.0, True)
     system.prepare(p.dataset.corpus, p.config)
-    n_sys = sum(1 for c in todo if not system.would_hit_cache(c.question, p.config))
-    # The judge's cache key depends on the answer, unknown before running: assume a cached answer
-    # also has a cached verdict. The in-run budget check backs this up.
-    n_judge = n_sys if p.experiment.judge else 0
+    n_sys = n_judge = 0
+    for c in todo:
+        if not system.would_hit_cache(c.question, p.config):
+            n_sys += 1
+            n_judge += 1 if p.experiment.judge else 0  # the answer is unknown, so assume it gets judged
+        elif p.experiment.judge:
+            # A cached answer is free to replay, and it tells us exactly what the judge would be asked.
+            trace = system.answer(c.question, p.config, llm=True)
+            if trace.status in ("answered", "partial") and not judge.would_hit(c, trace, _cited(trace)):
+                n_judge += 1
     c_sys, m_sys = per_call_cost(store, pricing, p.config.model, "system", p.config)
     c_judge, m_judge = per_call_cost(store, pricing, judge.model, "judge", p.config) if n_judge else (0.0, True)
     return Estimate(p.label, p.run_id, len(todo), n_sys, n_judge, n_sys * c_sys + n_judge * c_judge,
                     (m_sys or not n_sys) and (m_judge or not n_judge))
 
 
-def _cited_texts(trace: Trace) -> list[str]:
-    by_rank = {c.rank: c.text for c in trace.retrieved}
+def _cited(trace: Trace) -> list:
+    by_rank = {c.rank: c for c in trace.retrieved}
     seen, out = set(), []
     for c in trace.citations:
         if c.chunk_rank in by_rank and c.chunk_rank not in seen:
@@ -148,18 +157,27 @@ def _run_case(p: PlannedRun, case: Case, system: RAGSystem, judge: Judge, pricin
     latency = round((time.perf_counter() - t0) * 1000)
     k = getattr(cfg, "top_k", 8)
     judged = exp.judge and trace.status in ("answered", "partial")
-    verdict, jcall = (judge.judge(case, trace, _cited_texts(trace)) if judged else (None, None))
-    metrics = retrieval.case_metrics(trace, case, k)
-    if exp.llm:
-        metrics |= answer.case_metrics(trace, case, verdict, judged)
     ledger, cost = [], {"cost_spent_system": 0.0, "cost_spent_judge": 0.0,
                         "cost_nominal_system": 0.0, "cost_nominal_judge": 0.0}
-    for call in [*trace.llm_calls, *([jcall] if jcall else [])]:
+
+    def bill(call):
         usd = pricing.cost(call.model, call.input_tokens, call.output_tokens)
         cost[f"cost_nominal_{call.role}"] += usd
         if not call.cached:
             cost[f"cost_spent_{call.role}"] += usd
             ledger.append((call.model, call.role, usd))
+
+    for call in trace.llm_calls:
+        bill(call)
+    try:
+        verdict, jcall = (judge.judge(case, trace, _cited(trace)) if judged else (None, None))
+    except Exception as e:  # the system call is already paid for: keep its cost on the error row
+        return _error_row(case, e) | cost | {"trace": trace.to_dict(), "latency_ms": latency}, ledger
+    if jcall:
+        bill(jcall)
+    metrics = retrieval.case_metrics(trace, case, k)
+    if exp.llm:
+        metrics |= answer.case_metrics(trace, case, verdict, judged)
     row = {
         "case_id": case.id, "tag": case.tag, "answerable": case.answerable, "status": "ok",
         "pass": answer.case_pass(trace, case, verdict, exp.llm, k), "metrics": metrics,
@@ -270,7 +288,8 @@ def run_experiment(path: Path, settings: Settings, store: Store, *, system: RAGS
         raise RunRefused("Declined; nothing was run")
     _link_all(store, exp, planned)
     for p, e in zip(todo, out.estimates):
-        per_case = e.usd / e.uncached_system if e.uncached_system else 0.0
+        calls = max(e.uncached_system, e.uncached_judge)
+        per_case = e.usd / calls if calls else 0.0
         remaining = settings.budget_total_usd - store.spent_total()
         rec = execute(p, settings, store, system, judge, pricing, remaining, per_case,
                       resume=resume and p.existing is not None)

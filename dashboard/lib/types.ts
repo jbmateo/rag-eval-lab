@@ -112,6 +112,7 @@ export interface CompareReport {
   mcnemar_p: number;
   mde: number | null;
   counts: Record<"improved" | "regressed" | "stable_pass" | "stable_fail" | "not_comparable", number>;
+  errored_after_pass: number;
   by_tag: Record<string, { n: number; improved: number; regressed: number; base_accuracy: number | null; cand_accuracy: number | null }>;
   cases: CompareCase[];
 }

@@ -87,6 +87,8 @@ class RagStudioSystem:
         v = f"rag-studio@{self._git('rev-parse', '--short', 'HEAD')}"
         if self._git("status", "--porcelain", "--", "app"):
             v += "+dirty:" + hashlib.sha256(self._git("diff", "HEAD", "--", "app").encode()).hexdigest()[:8]
+        if self.embedder_kind != "fastembed":  # fastembed is the default; other embedders retrieve differently
+            v += f"+embedder:{self.embedder_kind}"
         return v
 
     def config_schema(self) -> type[BaseModel]:
@@ -172,7 +174,8 @@ class RagStudioSystem:
 
 
 def _chunks(rcs) -> list[RetrievedChunk]:
-    return [RetrievedChunk(rank=i, document=rc.chunk.document_name, text=rc.chunk.text, score=rc.score)
+    return [RetrievedChunk(rank=i, document=rc.chunk.document_name, text=rc.chunk.text, score=rc.score,
+                           location=rc.chunk.location)
             for i, rc in enumerate(rcs, start=1)]
 
 

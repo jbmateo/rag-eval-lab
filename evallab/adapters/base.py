@@ -14,6 +14,7 @@ class RetrievedChunk:
     document: str
     text: str
     score: float
+    location: str = ""  # section heading / page the system showed its model alongside the text
 
 
 @dataclass(frozen=True)

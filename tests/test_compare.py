@@ -59,7 +59,7 @@ def test_dataset_mismatch_warns_and_uses_shared():
 def test_gate_failures():
     r = report()
     fails = check_gate(r, GateSpec(max_regressed=0, min_accuracy_delta=0.0, max_cost_ratio=1.2))
-    assert "regressed 4 > 0" in fails[0] and len(fails) == 3
+    assert "regressed 4 + errored 1 > 0" in fails[0] and len(fails) == 3   # review #5: a6 passed, then errored
     assert check_gate(r, GateSpec()) == []
 
 
@@ -98,3 +98,17 @@ def test_cli_compare_and_gate(git_lab, write_experiment, monkeypatch):
     assert g.exit_code == 1 and "regressed" in g.output
     ok = runner.invoke(app, ["compare", "sweep:quality=0.9", "sweep:quality=0.2", "--gate", "--max-regressed", "99"])
     assert ok.exit_code == 0
+
+
+def test_gate_fails_with_nothing_to_compare():
+    """Review #5: a gate over zero paired cases must not pass vacuously."""
+    p = copy.deepcopy(PAIR)
+    for row in p["cand_rows"]:
+        row["status"], row["pass"] = "error", None
+    r = report(p)
+    assert r["n_compared"] == 0
+    assert any("no paired cases" in f for f in check_gate(r, GateSpec(max_regressed=0)))
+
+
+def test_errored_after_pass_counted():
+    assert report()["errored_after_pass"] == 1
