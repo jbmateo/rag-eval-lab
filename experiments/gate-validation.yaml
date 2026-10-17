@@ -1,0 +1,13 @@
+name: gate-validation
+description: Checks the regression gate itself — a plausible "make it cheaper" change (fewer, bigger chunks) must be flagged.
+hypothesis: >-
+  The gate flags the aggressive config: comparing baseline to aggressive shows at least one regressed case
+  and a negative hit@k delta, and `evallab compare --gate` exits non-zero.
+system: rag_studio
+dataset: lumen@v1
+llm: false
+base: {retrieval_mode: hybrid}
+variants:
+  - {label: baseline}
+  - {label: aggressive, top_k: 3, chunk_chars: 4000}
+gate: {max_regressed: 0}

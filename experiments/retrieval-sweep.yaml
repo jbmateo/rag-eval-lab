@@ -1,0 +1,9 @@
+name: retrieval-sweep
+description: Exploratory — how chunk size and top_k move retrieval (hit@k, MRR) on hybrid retrieval. No hypothesis; no API calls.
+system: rag_studio
+dataset: lumen@v1
+llm: false
+base: {retrieval_mode: hybrid}
+grid:
+  chunk_chars: [1000, 2000, 4000]
+  top_k: [4, 8, 12]
