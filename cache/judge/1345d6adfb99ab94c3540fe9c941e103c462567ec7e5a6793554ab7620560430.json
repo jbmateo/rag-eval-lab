@@ -1,0 +1,1 @@
+{"input_tokens": 1689, "output_tokens": 104, "verdict": {"correct": true, "reason": "The answer correctly states that E-4472 is HTTP status 422, matching the gold evidence and cited passage P1. The meaning given (more than 256 waypoints) is also stated in the gold evidence, so there are no unsupported claims.", "unsupported_claims": 0}}

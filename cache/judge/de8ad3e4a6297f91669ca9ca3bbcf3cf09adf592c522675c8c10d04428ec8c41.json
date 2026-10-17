@@ -1,0 +1,1 @@
+{"input_tokens": 3345, "output_tokens": 98, "verdict": {"correct": true, "reason": "The answer correctly states the 20 percent threshold for driving to the dock, which matches both gold evidence items (product spec and release notes), and the per-site configurability and prior 25 percent default are stated in the cited release notes.", "unsupported_claims": 0}}

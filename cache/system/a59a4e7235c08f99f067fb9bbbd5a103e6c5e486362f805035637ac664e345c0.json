@@ -1,0 +1,1 @@
+{"draft": {"status": "answered", "sentences": [{"text": "Critical vulnerabilities must be fixed within 7 days.", "citations": ["c1"]}, {"text": "Systems are scanned for vulnerabilities every week and remediation targets depend on severity.", "citations": ["c1"]}], "missing": ""}, "stop_reason": "end_turn", "input_tokens": 5040, "output_tokens": 102}

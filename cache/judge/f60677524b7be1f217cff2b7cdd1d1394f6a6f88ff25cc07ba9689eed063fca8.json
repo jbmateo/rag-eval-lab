@@ -1,0 +1,1 @@
+{"input_tokens": 2434, "output_tokens": 106, "verdict": {"correct": true, "reason": "The answer correctly states the 15 percent threshold for E-5012 from the API reference and the 52-minute time for the LD-300 to charge the LR7-X2 from 0 to 80 percent, both matching the gold evidence and cited passages.", "unsupported_claims": 0}}

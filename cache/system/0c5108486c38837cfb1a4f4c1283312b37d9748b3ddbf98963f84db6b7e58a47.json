@@ -1,0 +1,1 @@
+{"draft": {"status": "answered", "sentences": [{"text": "API version 1 is deprecated and will be switched off on 2026-11-04.", "citations": ["c1"]}, {"text": "That date is twelve months after v2 became available.", "citations": ["c1"]}], "missing": ""}, "stop_reason": "end_turn", "input_tokens": 7906, "output_tokens": 159}

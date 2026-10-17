@@ -1,0 +1,1 @@
+{"input_tokens": 1889, "output_tokens": 121, "verdict": {"correct": true, "reason": "The answer correctly states the LR7-X2 needs firmware v3.2.0 (product spec says v3.2.0 or later; release notes say it is the oldest firmware that runs the LR7-X2) and that the release was published 2025-11-04, matching the gold evidence and cited passages.", "unsupported_claims": 0}}

@@ -1,0 +1,1 @@
+{"input_tokens": 1218, "output_tokens": 82, "verdict": {"correct": true, "reason": "The answer states that Lumen Fleet API client secrets must be rotated every 180 days, which exactly matches the gold evidence and is directly stated in cited passage P1.", "unsupported_claims": 0}}

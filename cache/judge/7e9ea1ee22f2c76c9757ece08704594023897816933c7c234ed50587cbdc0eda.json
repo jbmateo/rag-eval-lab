@@ -1,0 +1,1 @@
+{"input_tokens": 1838, "output_tokens": 111, "verdict": {"correct": true, "reason": "The answer correctly states the default 20 percent threshold for driving to the nearest free dock, matching the gold evidence and cited passages P1 and P2. The claim that the threshold changed from 25 to 20 percent and can be set per site is directly stated in P2.", "unsupported_claims": 0}}

@@ -1,0 +1,1 @@
+{"draft": {"status": "insufficient_evidence", "sentences": [], "missing": "The passages give the top speed for the LR7-X2 (2.2 m/s unladen, 1.5 m/s at full payload) but do not state the top speed of the LR7-S1. The S1's dimensions, payload, and battery are described, but not its maximum speed."}, "stop_reason": "end_turn", "input_tokens": 9117, "output_tokens": 218}

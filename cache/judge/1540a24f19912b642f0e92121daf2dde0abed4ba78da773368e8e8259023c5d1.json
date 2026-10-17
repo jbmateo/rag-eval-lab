@@ -1,0 +1,1 @@
+{"input_tokens": 1274, "output_tokens": 310, "verdict": {"correct": true, "reason": "The gold evidence and cited passage both state the test-hall success rate rose from 91 to 98 percent, a 7-point gain. The reflective marker scan after two failed attempts and the 2026-06-09 patch date also appear in the cited passage.", "unsupported_claims": 0}}

@@ -1,0 +1,1 @@
+{"input_tokens": 1321, "output_tokens": 103, "verdict": {"correct": true, "reason": "The answer correctly states the service retries up to 6 times with exponential backoff starting at 30 seconds, which matches the gold evidence. The additional claims about dropping the event and marking the webhook degraded are stated in cited passage P1.", "unsupported_claims": 0}}

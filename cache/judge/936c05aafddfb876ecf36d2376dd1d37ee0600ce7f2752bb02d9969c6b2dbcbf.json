@@ -1,0 +1,1 @@
+{"input_tokens": 968, "output_tokens": 74, "verdict": {"correct": true, "reason": "The answer states the LA-118 lift tray is sold as SKU 90-1180, which exactly matches the gold evidence and cited passage P1.", "unsupported_claims": 0}}

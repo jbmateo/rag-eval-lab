@@ -1,0 +1,1 @@
+{"input_tokens": 905, "output_tokens": 94, "verdict": {"correct": true, "reason": "The answer states that company account passwords must be at least 14 characters, which matches the gold evidence and is directly stated in cited passage P1. The question asks for the shortest allowed length, and 14 characters answers it.", "unsupported_claims": 0}}

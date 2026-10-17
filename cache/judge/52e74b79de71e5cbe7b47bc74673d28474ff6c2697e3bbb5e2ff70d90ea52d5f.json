@@ -1,0 +1,1 @@
+{"input_tokens": 1908, "output_tokens": 95, "verdict": {"correct": true, "reason": "The answer correctly states the gold evidence that the most effective countermeasure is an alert on the resource itself, plus a long-running test checking health after days, and the AI-2 and AI-5 details match the cited passages.", "unsupported_claims": 0}}

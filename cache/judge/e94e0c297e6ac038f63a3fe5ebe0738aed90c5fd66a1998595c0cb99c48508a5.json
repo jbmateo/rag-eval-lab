@@ -1,0 +1,1 @@
+{"input_tokens": 1451, "output_tokens": 117, "verdict": {"correct": true, "reason": "The answer correctly identifies the LR7-S1 as the compact model for narrow aisles, matching the gold evidence. The additional detail that it fits aisles as narrow as 900 mm and the X2 needs 1,300 mm for turning is stated in the cited passage P1.", "unsupported_claims": 0}}

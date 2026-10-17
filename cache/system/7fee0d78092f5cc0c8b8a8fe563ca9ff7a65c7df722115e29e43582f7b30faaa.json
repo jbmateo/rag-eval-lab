@@ -1,0 +1,1 @@
+{"draft": {"status": "answered", "sentences": [{"text": "A Lumen Fleet API bearer token is valid for 3600 seconds after it is issued.", "citations": ["c5"]}, {"text": "After rotation, the old client secret keeps working for 15 minutes so deployments can be updated.", "citations": ["c5"]}], "missing": ""}, "stop_reason": "end_turn", "input_tokens": 4240, "output_tokens": 113}

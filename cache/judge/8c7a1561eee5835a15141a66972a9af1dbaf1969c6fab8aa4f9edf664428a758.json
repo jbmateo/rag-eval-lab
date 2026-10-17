@@ -1,0 +1,1 @@
+{"input_tokens": 1494, "output_tokens": 116, "verdict": {"correct": true, "reason": "The answer correctly identifies v3.3.2 released 2026-03-19 as the hotfix for INC-20260314-07 and the connection pool leak introduced in v3.3.1, with the timeout/access-point detail matching P1. All claims are supported by the cited passages.", "unsupported_claims": 0}}

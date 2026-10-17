@@ -1,0 +1,1 @@
+{"draft": {"status": "answered", "sentences": [{"text": "The security policy states that the target time for remediation depends on severity.", "citations": ["c1"]}, {"text": "Critical vulnerabilities must be fixed within 7 days.", "citations": ["c1"]}], "missing": ""}, "stop_reason": "end_turn", "input_tokens": 9014, "output_tokens": 320}

@@ -1,0 +1,1 @@
+{"draft": {"status": "answered", "sentences": [{"text": "Error E-4472 means that a mission has more than 256 waypoints.", "citations": ["c1", "c6"]}, {"text": "The HTTP status for E-4472 is 422.", "citations": ["c1", "c6"]}], "missing": ""}, "stop_reason": "end_turn", "input_tokens": 5036, "output_tokens": 97}

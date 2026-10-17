@@ -1,0 +1,1 @@
+{"input_tokens": 1048, "output_tokens": 122, "verdict": {"correct": true, "reason": "The answer's claim that work assignment stopped for 1 hour and 53 minutes on Saturday 14 March 2026 in the Rotterdam region matches the gold evidence and cited passage P1, and the 'Saturday' and 'Dutch deployment' framing is supported by the passage.", "unsupported_claims": 0}}

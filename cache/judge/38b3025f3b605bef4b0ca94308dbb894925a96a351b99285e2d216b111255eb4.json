@@ -1,0 +1,1 @@
+{"input_tokens": 1337, "output_tokens": 80, "verdict": {"correct": true, "reason": "The answer states that INC-20260314-03 reported robots in hall 2 not picking up new missions, which matches the gold evidence and cited passage P1 exactly.", "unsupported_claims": 0}}

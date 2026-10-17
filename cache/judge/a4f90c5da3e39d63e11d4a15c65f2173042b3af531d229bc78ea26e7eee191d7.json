@@ -1,0 +1,1 @@
+{"input_tokens": 1805, "output_tokens": 70, "verdict": {"correct": true, "reason": "The answer correctly states that operational logs of the fleet service are retained for 13 months, matching the gold evidence and cited passage P1.", "unsupported_claims": 0}}

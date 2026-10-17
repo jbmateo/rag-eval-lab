@@ -1,0 +1,1 @@
+{"draft": {"status": "answered", "sentences": [{"text": "Client secrets for the Lumen Fleet API must be rotated every 180 days.", "citations": ["c1"]}], "missing": ""}, "stop_reason": "end_turn", "input_tokens": 4314, "output_tokens": 64}

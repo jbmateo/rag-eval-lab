@@ -1,0 +1,1 @@
+{"input_tokens": 4705, "output_tokens": 106, "verdict": {"correct": true, "reason": "The answer correctly states the cap was raised from 128 to 256 in v3.4.0, matching the gold evidence and release notes. The E-4472 rejection above 256 waypoints and the note that clients need not change are both stated in the cited passages.", "unsupported_claims": 0}}

@@ -1,0 +1,1 @@
+{"input_tokens": 3126, "output_tokens": 545, "verdict": {"correct": true, "reason": "The answer gives v3.2.0 as the minimum firmware, matching the product spec. It dates the minor release that first added LR7-X2 support to 2025-11-04, which the release notes state, and that same release lists v3.2.0 as the oldest firmware for the LR7-X2.", "unsupported_claims": 0}}

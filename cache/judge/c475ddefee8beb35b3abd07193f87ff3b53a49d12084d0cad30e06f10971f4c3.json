@@ -1,0 +1,1 @@
+{"input_tokens": 979, "output_tokens": 101, "verdict": {"correct": true, "reason": "The answer correctly states passwords are not rotated on a fixed schedule because forced rotation leads to weaker choices, and the immediate-change-on-suspicion point is directly stated in the cited passage P1. All claims are supported.", "unsupported_claims": 0}}

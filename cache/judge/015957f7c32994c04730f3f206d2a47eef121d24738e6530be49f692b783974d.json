@@ -1,0 +1,1 @@
+{"input_tokens": 1002, "output_tokens": 109, "verdict": {"correct": true, "reason": "The answer correctly states that critical vulnerabilities must be fixed within 7 days, matching the gold evidence. The additional high (30 days) and medium (90 days) timelines are stated in cited passage P1, so they are supported and not unsupported claims.", "unsupported_claims": 0}}

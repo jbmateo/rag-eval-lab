@@ -1,0 +1,1 @@
+{"input_tokens": 1799, "output_tokens": 111, "verdict": {"correct": true, "reason": "The answer correctly states the company VPN must be used before opening internal systems, and that WireGuard keys are rotated every 90 days by the device management system; both are stated in the cited passages (P1 and P2). The WireGuard key-pair detail is also in P2.", "unsupported_claims": 0}}

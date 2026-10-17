@@ -1,0 +1,1 @@
+{"input_tokens": 1262, "output_tokens": 99, "verdict": {"correct": true, "reason": "The answer correctly states the fix described in the gold evidence and in cited passage P1, which lists it under LUM-4329 (webhook signatures computed over a re-serialised body instead of the raw body). No unsupported claims.", "unsupported_claims": 0}}
