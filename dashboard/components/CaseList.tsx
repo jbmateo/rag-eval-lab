@@ -45,7 +45,7 @@ export function CaseList({ report, onOpen }: { report: CompareReport; onOpen: (i
               <button onClick={() => onOpen(c.case_id)} className="flex w-full flex-wrap items-center gap-x-4 gap-y-1 px-4 py-3 text-left hover:bg-surface-2">
                 <span className="w-32 shrink-0"><StatusBadge status={c.status} /></span>
                 <span className="num w-12 shrink-0 text-sm text-muted">{c.case_id}</span>
-                <span className="min-w-0 flex-1 text-sm">{c.question ?? "(question unavailable)"}</span>
+                <span className="min-w-0 flex-1 text-sm [overflow-wrap:anywhere]">{c.question ?? "(question unavailable)"}</span>
                 <span className="text-xs text-muted">{c.tag}{c.reason ? ` · ${c.reason.replaceAll("_", " ")}` : ""}</span>
               </button>
             </li>

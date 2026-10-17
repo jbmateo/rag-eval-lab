@@ -1,5 +1,5 @@
 // Browser-side loaders for the exported JSON.
-import type { DatasetFile, RunFile } from "./types";
+import type { DatasetFile, ExperimentFile, RunFile } from "./types";
 
 const runCache = new Map<string, Promise<RunFile>>();
 
@@ -18,4 +18,10 @@ export async function fetchDataset(name: string): Promise<DatasetFile | null> {
   const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
   const r = await fetch(`${base}/data/datasets/${name}.json`);
   return r.ok ? ((await r.json()) as DatasetFile) : null;
+}
+
+export async function fetchExperiment(slug: string): Promise<ExperimentFile | null> {
+  const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+  const r = await fetch(`${base}/data/experiments/${slug}.json`);
+  return r.ok ? ((await r.json()) as ExperimentFile) : null;
 }

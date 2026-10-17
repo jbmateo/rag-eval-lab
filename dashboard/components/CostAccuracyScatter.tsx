@@ -1,6 +1,6 @@
 "use client";
 import { CartesianGrid, ErrorBar, LabelList, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis } from "recharts";
-import { pct, usd } from "@/lib/format";
+import { pct, shortLabels, usd } from "@/lib/format";
 import type { Run } from "@/lib/types";
 
 type Point = { label: string; cost: number; acc: number; err: [number, number]; front: boolean };
@@ -25,10 +25,11 @@ function Tip({ active, payload }: { active?: boolean; payload?: { payload: Point
 }
 
 export function CostAccuracyScatter({ runs, accLabel }: { runs: Run[]; accLabel: string }) {
+  const short = shortLabels(runs.map((r) => r.label));
   const raw = runs.filter((r) => r.summary?.accuracy != null && r.summary?.cost_per_case != null).map((r) => {
     const acc = r.summary!.accuracy as number;
     const [lo, hi] = r.summary!.accuracy_ci ?? [acc, acc];
-    return { label: r.label, cost: r.summary!.cost_per_case as unknown as number, acc,
+    return { label: short.get(r.label)!, cost: r.summary!.cost_per_case as unknown as number, acc,
       err: [acc - (lo ?? acc), (hi ?? acc) - acc] as [number, number] };
   });
   const front = paretoFront(raw);
@@ -54,7 +55,7 @@ export function CostAccuracyScatter({ runs, accLabel }: { runs: Run[]; accLabel:
             <Scatter data={frontPts} fill="var(--series-2)" stroke="var(--surface)" strokeWidth={2}
               line={{ stroke: "var(--series-2)", strokeWidth: 2 }}>
               <ErrorBar dataKey="err" direction="y" stroke="var(--series-2)" strokeWidth={1.5} width={6} />
-              <LabelList dataKey="label" position="left" offset={10} fill="var(--ink-2)" fontSize={12} />
+              <LabelList dataKey="label" position="right" offset={10} fill="var(--ink-2)" fontSize={12} />
             </Scatter>
           </ScatterChart>
         </ResponsiveContainer>

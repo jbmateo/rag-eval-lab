@@ -41,3 +41,15 @@ export function evidenceMatches(doc: string, text: string, e: { document: string
 export function slugify(name: string): string {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
+
+/** Chart labels: drop a "key=" prefix that every label shares (e.g. "model=claude-haiku-5-5" → "claude-haiku-5-5"). */
+export function shortLabels(labels: string[]): Map<string, string> {
+  const prefix = labels.length && labels.every((l) => !l.includes(",") && l.includes("="))
+    && new Set(labels.map((l) => l.split("=")[0])).size === 1 ? labels[0].split("=")[0] + "=" : "";
+  return new Map(labels.map((l) => [l, prefix ? l.slice(prefix.length) : l]));
+}
+
+/** A run can serve several experiments (shared configs run once); label it as the experiment being viewed does. */
+export function labelFor(exp: { runs: { run_id: string; label: string }[] } | null, runId: string, fallback: string): string {
+  return exp?.runs.find((r) => r.run_id === runId)?.label ?? fallback;
+}

@@ -31,7 +31,7 @@ export function ExperimentView({ exp }: { exp: ExperimentFile }) {
           <h2 className="text-lg font-semibold">Runs</h2>
           <span className="text-sm text-ink-2">Tick two runs to compare them case by case.</span>
           {selected.length === 2 ? (
-            <Link href={`/compare/?base=${selected[0]}&cand=${selected[1]}`}
+            <Link href={`/compare/?base=${selected[0]}&cand=${selected[1]}&exp=${exp.slug}`}
               className="ml-auto rounded-md bg-series-1 px-3 py-1.5 text-sm font-medium text-white">
               Compare {selected.length} runs →
             </Link>

@@ -59,8 +59,8 @@ export function CompareSummary({ report: r }: { report: CompareReport }) {
                   return (
                     <tr key={key} className="border-t border-line">
                       <th className="py-1.5 pr-3 text-left font-medium">{label}</th>
-                      <td className="pr-3">{fmt(m.base)}</td><td className="pr-3">{fmt(m.cand)}</td>
-                      <td className="pr-3">{delta(m.delta)}</td><td className="whitespace-nowrap pr-3"><Ci m={m} fmt={delta} /></td>
+                      <td className="whitespace-nowrap pr-3">{fmt(m.base)}</td><td className="whitespace-nowrap pr-3">{fmt(m.cand)}</td>
+                      <td className="whitespace-nowrap pr-3">{delta(m.delta)}</td><td className="whitespace-nowrap pr-3"><Ci m={m} fmt={delta} /></td>
                       <td><StatusBadge status={m.verdict} /></td>
                     </tr>
                   );

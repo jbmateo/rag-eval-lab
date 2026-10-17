@@ -79,7 +79,7 @@ export function CaseDrawer({ entry, expected, baseRow, candRow, baseLabel, candL
   }, [onClose]);
   return (
     <div className="fixed inset-0 z-50 flex justify-end bg-black/30" onClick={onClose}>
-      <aside role="dialog" aria-modal="true" aria-label={`Case ${entry.case_id}`} onClick={(e) => e.stopPropagation()}
+      <aside role="dialog" aria-modal="true" aria-label={`Case ${entry.case_id}`} onClick={(e) => e.stopPropagation()} style={{ overflowWrap: "anywhere" }}
         className="h-full w-full max-w-5xl overflow-y-auto border-l border-line bg-page p-5 shadow-xl">
         <div className="mb-4 flex items-start gap-3">
           <div className="min-w-0 flex-1 space-y-1">
