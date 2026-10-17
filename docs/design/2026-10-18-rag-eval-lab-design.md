@@ -78,8 +78,8 @@ rag-eval-lab/
 └── docs/design/, docs/plans/
 ```
 
-Stack: Python ≥ 3.11, `anthropic`, `pydantic`, `pyyaml`, `typer`, `numpy`, `scipy` (McNemar via
-binomial), `pytest`. RAG Studio's backend is installed with `pip install -e ../rag-studio/backend`.
+Stack: Python ≥ 3.12 (same as RAG Studio), `anthropic`, `pydantic`, `pyyaml`, `typer`, `pytest` (statistics are
+implemented in pure Python so the dashboard's TypeScript port can match them exactly). RAG Studio's backend is installed with `pip install -e ../rag-studio/backend`.
 Dashboard: Next.js 15, React 19, Tailwind 4, Recharts, Playwright (same as RAG Studio plus Recharts).
 
 ## 4. Adapter interface
@@ -183,8 +183,10 @@ Rules:
 
 ## 6. Metrics
 
-All metrics are computed per case, then aggregated per run. Evidence matching: normalized substring
-containment of the evidence in the chunk text (lower-case, whitespace collapsed, same as Studio).
+All metrics are computed per case, then aggregated per run. Evidence matching (identical to Studio's
+`research/metrics.py`): a chunk matches an expected item when it comes from the expected document and,
+after normalization (whitespace collapsed, `casefold()`), contains either the whole evidence string or
+its first 8 words (evidence may span a chunk boundary).
 
 **Retrieval** (answerable cases; free):
 
@@ -308,7 +310,8 @@ runs in the store. `evallab budget` prints spent / remaining. Raising the cap is
 
 **Errors.** SDK retries handle transient API errors. A case still failing is stored with
 `status = error` and excluded from metrics; a run with > 10% errored cases is marked `degraded`.
-Missing API key with an LLM experiment → refuse before estimating, with a clear message. Retrieval-only
+Missing API key → refuse only if the run needs at least one uncached call, with a clear message;
+a fully cached LLM run works offline. Retrieval-only
 experiments never need a key.
 
 **SQLite store (`results/evallab.db`):**
@@ -333,10 +336,12 @@ by id prefix or `experiment:label`.
   `judge_incorrect` / `judge_correct`, `unsupported_claims`.
 - **Statistics:**
   - McNemar exact test (two-sided binomial on the discordant pairs) for pass/fail.
-  - Paired bootstrap 95% CI (10,000 resamples, seed 0) for Δ accuracy, Δ MRR, Δ p50 latency,
-    Δ cost per case.
+  - Paired bootstrap 95% CI (10,000 resamples, seed 0, mulberry32 PRNG implemented identically in
+    Python and TypeScript; percentile bounds at sorted indices round(0.025·(B−1)) and
+    round(0.975·(B−1))) for Δ accuracy, Δ MRR, Δ p50 latency, Δ cost per case.
   - Verdict "better" / "worse" only when the CI excludes 0; otherwise "no detectable difference".
-  - Minimum detectable effect at the current n (80% power, α = 0.05) is printed, so it is clear
+  - Minimum detectable effect at the current n (80% power, α = 0.05), paired approximation
+    MDE = 2.80 · sqrt(max(p_disc, 1/n) / n) with p_disc the observed discordant share, is printed, so it is clear
     how large a change this dataset can resolve.
 - **Contents:** config diff (only differing keys), versions, judge; summary table with
   baseline → candidate, Δ, CI; counts by status and by tag; regressed cases first (question, reason,
