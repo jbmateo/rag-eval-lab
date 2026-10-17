@@ -8,6 +8,8 @@ dependencies = [
   "pydantic>=2",
   "pyyaml",
   "typer",
+  "pypdf",
+  "python-docx",
 ]
 
 [project.optional-dependencies]
@@ -25,5 +27,6 @@ packages = ["evallab", "evallab.adapters", "evallab.metrics"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["."]
 markers = ["slow: needs fastembed models or a long corpus ingest"]
 addopts = "-m 'not slow'"
