@@ -21,6 +21,7 @@ from evallab.metrics import answer, retrieval
 from evallab.metrics.judge import Judge, make_judge
 from evallab.pricing import Pricing
 from evallab.pricing import load as load_pricing
+from evallab.stats import paired_bootstrap_ci
 from evallab.store import RunRecord, Store, now
 
 DEGRADED_ERROR_SHARE = 0.10
@@ -204,6 +205,9 @@ def execute(p: PlannedRun, settings: Settings, store: Store, system: RAGSystem, 
         spent += sum(usd for _, _, usd in ledger)
     rows = store.case_rows(p.run_id)
     summary = answer.summarize(rows, exp.llm)
+    passes = [float(r["pass"]) for r in rows if r["status"] == "ok" and r["pass"] is not None]
+    _, lo, hi = paired_bootstrap_ci([0.0] * len(passes), passes)
+    summary["accuracy_ci"] = [lo, hi]
     if stopped or len(rows) < len(p.cases):
         status = "partial"
     elif summary["n_errored"] > DEGRADED_ERROR_SHARE * len(rows):

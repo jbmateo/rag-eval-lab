@@ -172,3 +172,10 @@ def test_shared_config_is_reused_across_experiments(write_experiment, git_lab, s
     shared = first.records[1].run_id
     assert store.find_run("other", "quality=0.9").run_id == shared
     assert {r.run_id for r in store.list_runs("other")} == {shared, out.records[0].run_id}
+
+
+def test_summary_has_accuracy_ci(write_experiment, git_lab, store):
+    out = go(write_experiment("free", FREE_EXP), git_lab, store)
+    s = out.records[0].summary
+    lo, hi = s["accuracy_ci"]
+    assert lo <= s["accuracy"] <= hi
