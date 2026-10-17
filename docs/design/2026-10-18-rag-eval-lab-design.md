@@ -5,7 +5,7 @@ Date: 2026-10-18 · Status: draft for review · Companion to [RAG Studio](../../
 ## 1. Purpose
 
 An evaluation and regression-testing tool for retrieval-augmented generation systems. It exists to
-show — as an R&D portfolio piece — that an AI system can be improved **systematically**: changes are
+show that an AI system can be improved **systematically**: changes are
 stated as hypotheses up front, measured on a versioned dataset, compared case by case with honest
 statistics, and gated against regressions, instead of being judged from a few good-looking demos.
 
@@ -14,7 +14,7 @@ adapter interface (§4).
 
 **Success criteria**
 
-1. An interviewer opens the hosted dashboard, picks two runs, and immediately sees which cases
+1. A reader opens the hosted dashboard, picks two runs, and immediately sees which cases
    improved or regressed, why, and what each change cost.
 2. Every number in `FINDINGS.md` is reproducible from a committed experiment file, dataset version
    and system version.
