@@ -1,0 +1,29 @@
+[project]
+name = "evallab"
+version = "0.1.0"
+description = "Evaluation and regression testing for retrieval-augmented generation systems"
+requires-python = ">=3.12"
+dependencies = [
+  "anthropic>=1.15",
+  "pydantic>=2",
+  "pyyaml",
+  "typer",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.scripts]
+evallab = "evallab.cli:app"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["evallab", "evallab.adapters", "evallab.metrics"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["slow: needs fastembed models or a long corpus ingest"]
+addopts = "-m 'not slow'"

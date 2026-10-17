@@ -1,0 +1,10 @@
+.venv/
+.env
+__pycache__/
+*.egg-info/
+.pytest_cache/
+dashboard/node_modules/
+dashboard/.next/
+dashboard/out/
+dashboard/test-results/
+dashboard/playwright-report/

@@ -1,0 +1,6 @@
+# USD per million tokens, Anthropic first-party list prices (prompts up to 100K tokens).
+as_of: 2026-10-06
+models:
+  claude-sonnet-5-5: {input: 2.00, output: 10.00}
+  claude-haiku-5-5: {input: 0.10, output: 0.50}
+  fake-model: {input: 1.00, output: 1.00}

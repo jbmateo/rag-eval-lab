@@ -1,0 +1,18 @@
+[budget]
+total_usd = 1.00
+
+[judge]
+model = "claude-haiku-5-5"
+rubric_version = "v1"
+
+[paths]
+store = "results/evallab.db"
+cache = "cache"
+export = "dashboard/public/data"
+
+[systems.rag_studio]
+path = "../rag-studio/backend"
+embedder = "fastembed"
+
+[ci]
+baseline_run = ""
