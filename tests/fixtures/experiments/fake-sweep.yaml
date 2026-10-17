@@ -1,0 +1,10 @@
+name: fake-sweep
+description: Fake system at two quality levels — exercises the whole pipeline offline.
+hypothesis: quality 0.9 passes more cases than quality 0.4
+system: fake
+dataset: drones@v1
+llm: true
+judge: true
+grid:
+  quality: [0.4, 0.9]
+gate: {max_regressed: 0}
