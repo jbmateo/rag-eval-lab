@@ -1,0 +1,1 @@
+{"input_tokens": 1198, "output_tokens": 76, "verdict": {"correct": true, "reason": "The answer correctly states that critical (most severe) vulnerabilities must be fixed within 7 days, matching the gold evidence and cited passage P1.", "unsupported_claims": 0}}

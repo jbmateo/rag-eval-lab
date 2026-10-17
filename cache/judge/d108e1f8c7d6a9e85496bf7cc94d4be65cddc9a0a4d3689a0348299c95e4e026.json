@@ -1,0 +1,1 @@
+{"input_tokens": 1463, "output_tokens": 108, "verdict": {"correct": true, "reason": "The answer correctly identifies the LR7-S1 as the compact model for narrow aisles, matching the gold evidence. The added detail about 900 mm versus 1,300 mm aisle widths is stated in the cited passage P1, so it is supported.", "unsupported_claims": 0}}

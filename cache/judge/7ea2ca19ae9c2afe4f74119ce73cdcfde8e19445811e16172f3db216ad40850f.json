@@ -1,0 +1,1 @@
+{"input_tokens": 1682, "output_tokens": 84, "verdict": {"correct": true, "reason": "The answer correctly states that E-4472 is returned for missions with more than 256 waypoints and carries HTTP status 422, which matches the gold evidence and cited passage P1.", "unsupported_claims": 0}}
