@@ -4,9 +4,8 @@ Date: 2026-10-18 · Status: draft for review · Companion to [RAG Studio](../../
 
 ## 1. Purpose
 
-An evaluation and regression-testing tool for retrieval-augmented generation systems. It exists to
-show that an AI system can be improved **systematically**: changes are
-stated as hypotheses up front, measured on a versioned dataset, compared case by case with honest
+An evaluation and regression-testing tool for retrieval-augmented generation systems. It is a research
+tool for improving an AI system **systematically**: changes are stated as hypotheses up front, measured on a versioned dataset, compared case by case with honest
 statistics, and gated against regressions, instead of being judged from a few good-looking demos.
 
 RAG Studio is the first system under test. Eval Lab is general: it talks to systems only through an
@@ -14,7 +13,7 @@ adapter interface (§4).
 
 **Success criteria**
 
-1. A reader opens the hosted dashboard, picks two runs, and immediately sees which cases
+1. Picking any two runs in the dashboard shows immediately which cases
    improved or regressed, why, and what each change cost.
 2. Every number in `FINDINGS.md` is reproducible from a committed experiment file, dataset version
    and system version.
@@ -49,7 +48,7 @@ rag-eval-lab/
 │   ├── adapters/
 │   │   ├── base.py          RAGSystem protocol, Trace and related dataclasses
 │   │   ├── rag_studio.py    RAG Studio adapter
-│   │   └── fake.py          deterministic, config-sensitive system for tests and demos
+│   │   └── fake.py          deterministic, config-sensitive system for tests
 │   ├── datasets.py          load, hash-verify, validate, create and publish versions
 │   ├── experiments.py       YAML → concrete run configs
 │   ├── runner.py            executes runs: cache, cost gate, budget, resume
@@ -69,7 +68,7 @@ rag-eval-lab/
 ├── experiments/             *.yaml
 ├── tests/                   pytest
 ├── cache/                   LLM + judge cache (committed, so re-runs are free for anyone)
-├── results/evallab.db       committed demo results
+├── results/evallab.db       committed results
 ├── pricing.yaml
 ├── evallab.toml             paths, budget, defaults
 ├── .github/workflows/ci.yml
@@ -267,7 +266,7 @@ gate: {max_regressed: 0, min_accuracy_delta: -0.02, max_cost_ratio: 1.2}
 |---|---|---|---|---|
 | `rq1-retrieval.yaml` | H1 (Studio RQ1): hybrid beats best single mode by ≥ 10 pts hit@8 on `exact_term` | retrieval_mode | — | $0 |
 | `retrieval-sweep.yaml` | exploratory, no LLM | chunk_chars, top_k | — | $0 |
-| `regression-demo.yaml` | a plausible "optimization" breaks cases; the gate catches it | a deliberately bad config (e.g. `top_k: 3`, `chunk_chars: 4000`) vs baseline | — | $0 |
+| `gate-validation.yaml` | validates the gate itself: a plausible "optimization" that breaks cases must be caught | a deliberately bad config (e.g. `top_k: 3`, `chunk_chars: 4000`) vs baseline | — | $0 |
 | `baseline.yaml` | — (baseline used by every LLM sweep) | — | haiku | ~$0.06–0.10 |
 | `prompt-sweep.yaml` | H6: a "cite every claim, be terse" prompt reduces unsupported claims without lowering answer rate | prompt_variant | haiku | ~$0.06–0.10 |
 | `chunk-sweep.yaml` | H4 (Studio RQ4) restated | chunk_chars 1000 / 4000 | haiku | ~$0.12–0.20 |
@@ -337,7 +336,7 @@ by id prefix or `experiment:label`.
   - Paired bootstrap 95% CI (10,000 resamples, seed 0) for Δ accuracy, Δ MRR, Δ p50 latency,
     Δ cost per case.
   - Verdict "better" / "worse" only when the CI excludes 0; otherwise "no detectable difference".
-  - Minimum detectable effect at the current n (80% power, α = 0.05) is printed, so a reader knows
+  - Minimum detectable effect at the current n (80% power, α = 0.05) is printed, so it is clear
     how large a change this dataset can resolve.
 - **Contents:** config diff (only differing keys), versions, judge; summary table with
   baseline → candidate, Δ, CI; counts by status and by tag; regressed cases first (question, reason,
@@ -395,7 +394,7 @@ All tests run offline at $0.
 
 - `FINDINGS.md`: per hypothesis — statement (as registered), setup (experiment file, dataset, system
   version, n), results with CIs, verdict, and what was changed because of it; a judge-reliability
-  section (κ); a regression-demo walkthrough; a limitations section (n = 60, Haiku judge, subset size
+  section (κ); a gate-validation walkthrough; a limitations section (n = 60, Haiku judge, subset size
   for H5, single corpus); actual total spend.
 - `README.md`: what and why, architecture diagram, quickstart (`make install`, `make test`,
   `evallab run`, `make dashboard`), screenshots, hosted dashboard link, link to RAG Studio.
@@ -416,7 +415,7 @@ estimate and confirmation; the order is the priority order.
 | 6 | `model-sweep.yaml` on a balanced subset; n = remaining budget ÷ measured sonnet cost per case, min 20, max 60 | remainder |
 
 If step 0 shows fewer than 20 Sonnet cases fit, H5 is not run and FINDINGS says so. Retrieval-only
-experiments (H1, retrieval sweep, regression demo) are free and run first.
+experiments (H1, retrieval sweep, gate validation) are free and run first.
 
 ## 14. Out of scope (v1)
 
