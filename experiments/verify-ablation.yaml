@@ -1,0 +1,14 @@
+name: verify-ablation
+description: RAG Studio RQ3 restated — does server-side citation verification remove unsupported claims prompting lets through?
+hypothesis: >-
+  H3′ (H3 from rag-studio commit 8c829e1, measured per answer because this judge counts unsupported claims per
+  answer): raw citation validity with verification off is below 98%, and the share of answered cases with at
+  least one unsupported claim is at least 3 points lower with verification on than off. H3′ is rejected if
+  raw citation validity is 98% or higher, or the share does not fall by 3 points.
+system: rag_studio
+dataset: lumen@v1
+llm: true
+judge: true
+base: {model: claude-haiku-5-5}
+grid:
+  verify_citations: [true, false]
