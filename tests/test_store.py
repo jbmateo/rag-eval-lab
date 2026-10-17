@@ -48,6 +48,8 @@ def test_find_run_latest(tmp_path):
     s = Store(tmp_path / "r.db")
     s.create_run(rec("aaa000000001", started="2026-10-18T10:00:00Z"))
     s.create_run(rec("aaa000000002", started="2026-10-18T11:00:00Z"))
+    s.link_run("exp", "base", "aaa000000001")
+    s.link_run("exp", "base", "aaa000000002")
     assert s.find_run("exp", "base").run_id == "aaa000000002"
     assert s.find_run("exp", "nope") is None
     assert [r.run_id for r in s.list_runs("exp")] == ["aaa000000001", "aaa000000002"]

@@ -20,6 +20,8 @@ CREATE TABLE IF NOT EXISTS case_results (
   cost_spent_system REAL NOT NULL, cost_spent_judge REAL NOT NULL,
   cost_nominal_system REAL NOT NULL, cost_nominal_judge REAL NOT NULL,
   PRIMARY KEY (run_id, case_id));
+CREATE TABLE IF NOT EXISTS experiment_runs (
+  experiment TEXT NOT NULL, label TEXT NOT NULL, run_id TEXT NOT NULL, PRIMARY KEY (experiment, label, run_id));
 CREATE TABLE IF NOT EXISTS ledger (
   ts TEXT NOT NULL, run_id TEXT NOT NULL, case_id TEXT NOT NULL, model TEXT NOT NULL, role TEXT NOT NULL,
   usd REAL NOT NULL);
@@ -105,16 +107,29 @@ class Store:
             raise ValueError(f"Run prefix {run_id_or_prefix!r} is ambiguous: {', '.join(r['run_id'] for r in rows)}")
         return self._run(rows[0])
 
+    def link_run(self, experiment: str, label: str, run_id: str) -> None:
+        """Record that a run belongs to an experiment under a label; one run can serve several experiments."""
+        self.conn.execute("INSERT OR IGNORE INTO experiment_runs VALUES (?,?,?)", (experiment, label, run_id))
+        self.conn.commit()
+
     def find_run(self, experiment: str, label: str) -> RunRecord | None:
-        row = self.conn.execute("SELECT * FROM runs WHERE experiment=? AND label=? ORDER BY started_at DESC LIMIT 1",
-                                (experiment, label)).fetchone()
+        row = self.conn.execute(
+            "SELECT runs.* FROM runs JOIN experiment_runs l ON l.run_id = runs.run_id "
+            "WHERE l.experiment=? AND l.label=? ORDER BY runs.started_at DESC LIMIT 1", (experiment, label)).fetchone()
         return self._run(row) if row else None
+
+    def labels(self, experiment: str) -> dict[str, str]:
+        """run_id → label within an experiment."""
+        return {r["run_id"]: r["label"] for r in
+                self.conn.execute("SELECT run_id, label FROM experiment_runs WHERE experiment=?", (experiment,))}
 
     def list_runs(self, experiment: str | None = None) -> list[RunRecord]:
         if experiment is None:
             rows = self.conn.execute("SELECT * FROM runs ORDER BY started_at, run_id")
         else:
-            rows = self.conn.execute("SELECT * FROM runs WHERE experiment=? ORDER BY started_at, run_id", (experiment,))
+            rows = self.conn.execute(
+                "SELECT DISTINCT runs.* FROM runs JOIN experiment_runs l ON l.run_id = runs.run_id "
+                "WHERE l.experiment=? ORDER BY runs.started_at, runs.run_id", (experiment,))
         return [self._run(r) for r in rows]
 
     def set_status(self, run_id: str, status: str) -> None:
@@ -127,7 +142,10 @@ class Store:
         self.conn.commit()
 
     # cases
-    def put_case(self, run_id: str, row: dict) -> None:
+    def put_case(self, run_id: str, row: dict, ledger: list[tuple[str, str, float]] = ()) -> None:
+        """Store one case result and its spend (model, role, usd) in a single transaction."""
+        for model, role, usd in ledger:
+            self.conn.execute("INSERT INTO ledger VALUES (?,?,?,?,?,?)", (now(), run_id, row["case_id"], model, role, usd))
         self.conn.execute(
             "INSERT OR REPLACE INTO case_results VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
             (run_id, row["case_id"], row["tag"], int(row["answerable"]), row["status"],

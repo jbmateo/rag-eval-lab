@@ -23,10 +23,11 @@ def fail(message: str, code: int = 2) -> None:
 def run_guarded(fn):
     """Map user-facing errors from the library to a one-line message and exit code 2."""
     from evallab.datasets import DatasetError
+    from evallab.experiments import ExperimentError
 
     try:
         return fn()
-    except (DatasetError, UserError, FileNotFoundError, KeyError, ValueError) as e:
+    except (DatasetError, ExperimentError, UserError, FileNotFoundError, KeyError, ValueError) as e:
         fail(str(e).strip("'\""))
 
 
@@ -90,3 +91,44 @@ def dataset_list() -> None:
     for m in list_datasets(load_settings()):
         for v in m["versions"]:
             typer.echo(f"{m['name']}@{v['version']}  {v['cases']} cases  {v['created']}  {v['changes']}")
+
+
+def _store(settings):
+    from evallab.store import Store
+
+    return Store(settings.store_path)
+
+
+@app.command()
+def run(
+    path: Path,
+    yes: bool = typer.Option(False, "--yes", help="Skip the spend confirmation"),
+    dry_run: bool = typer.Option(False, "--dry-run", help="Print the estimate and stop"),
+    force: bool = typer.Option(False, "--force", help="Re-run runs that already completed"),
+    resume: bool = typer.Option(False, "--resume", help="Continue partial runs"),
+) -> None:
+    """Run an experiment file (shows a cost estimate first)."""
+    from evallab.runner import run_experiment
+
+    settings = load_settings()
+    run_guarded(lambda: run_experiment(path, settings, _store(settings), yes=yes, dry_run=dry_run, force=force,
+                                       resume=resume, confirm=lambda m: typer.confirm(m, default=False),
+                                       echo=typer.echo))
+
+
+@app.command()
+def budget() -> None:
+    """Show project API spend against the budget."""
+    settings = load_settings()
+    spent = _store(settings).spent_total()
+    total = settings.budget_total_usd
+    typer.echo(f"spent ${spent:.2f} of ${total:.2f} (remaining ${total - spent:.2f})")
+
+
+@app.command("list")
+def list_runs(experiment: str = typer.Option(None, "--experiment")) -> None:
+    """List runs in the results store."""
+    for r in _store(load_settings()).list_runs(experiment):
+        acc = (r.summary or {}).get("accuracy")
+        typer.echo(f"{r.run_id}  {r.experiment}:{r.label}  {r.status}  "
+                   f"accuracy={'—' if acc is None else f'{acc:.3f}'}  {r.started_at}")

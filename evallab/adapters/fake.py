@@ -33,6 +33,7 @@ def _draw(question: str) -> float:
 
 class FakeSystem:
     name = "fake"
+    needs_api_key = False
 
     def __init__(self, all_cached: bool = False):
         self.all_cached = all_cached

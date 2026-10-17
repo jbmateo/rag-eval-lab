@@ -54,6 +54,8 @@ def build_message(case: Case, trace: Trace, cited_texts: list[str]) -> str:
 
 
 class ClaudeJudge:
+    needs_api_key = True
+
     def __init__(self, api_key: str, cache: DiskCache, model: str, rubric_version: str, client=None):
         self._client = client
         self.api_key = api_key
@@ -104,6 +106,7 @@ class FakeJudge:
     """Correct iff a cited chunk holds expected evidence; no unsupported claims. For tests and demos."""
 
     model = "fake-model"
+    needs_api_key = False
 
     def __init__(self, rules: dict[str, JudgeVerdict | None] | None = None):
         self.rules = rules or {}
