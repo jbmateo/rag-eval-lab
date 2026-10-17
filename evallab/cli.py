@@ -132,3 +132,94 @@ def list_runs(experiment: str = typer.Option(None, "--experiment")) -> None:
         acc = (r.summary or {}).get("accuracy")
         typer.echo(f"{r.run_id}  {r.experiment}:{r.label}  {r.status}  "
                    f"accuracy={'—' if acc is None else f'{acc:.3f}'}  {r.started_at}")
+
+
+def _resolve_run(store, ref: str):
+    """`experiment:label` (latest run linked under that label) or a run-id prefix."""
+    if ":" in ref:
+        experiment, label = ref.split(":", 1)
+        run = store.find_run(experiment, label)
+        if run is None:
+            raise UserError(f"No run labelled {label!r} in experiment {experiment!r}")
+        return run, experiment
+    run = store.get_run(ref)
+    return run, run.experiment
+
+
+def _rows_with_questions(store, settings, run) -> list[dict]:
+    from evallab.datasets import DatasetError, load_dataset
+
+    rows = store.case_rows(run.run_id)
+    try:
+        questions = {c.id: c.question for c in load_dataset(run.dataset, settings).cases}
+    except DatasetError:
+        questions = {}
+    for r in rows:
+        r["question"] = questions.get(r["case_id"])
+    return rows
+
+
+def run_dict(run) -> dict:
+    from dataclasses import asdict
+
+    return asdict(run)
+
+
+@app.command()
+def compare(
+    base: str,
+    cand: str,
+    fmt: str = typer.Option("md", "--format", help="md or json"),
+    out: Path = typer.Option(None, "--out", help="Write the report to a file"),
+    gate: bool = typer.Option(False, "--gate", help="Exit 1 if the candidate fails the gate"),
+    allow_incomplete: bool = typer.Option(False, "--allow-incomplete"),
+    max_regressed: int = typer.Option(None, "--max-regressed"),
+    min_accuracy_delta: float = typer.Option(None, "--min-accuracy-delta"),
+    max_cost_ratio: float = typer.Option(None, "--max-cost-ratio"),
+) -> None:
+    """Compare two runs case by case (BASE and CAND: run-id prefix or experiment:label)."""
+    import json
+
+    import yaml
+
+    from evallab.compare import check_gate, compare_runs, render_markdown
+    from evallab.experiments import GateSpec
+
+    settings = load_settings()
+    store = _store(settings)
+
+    def build():
+        b, _ = _resolve_run(store, base)
+        c, c_exp = _resolve_run(store, cand)
+        report = compare_runs(run_dict(b), _rows_with_questions(store, settings, b),
+                              run_dict(c), _rows_with_questions(store, settings, c), allow_incomplete)
+        exp = store.get_experiment(c_exp)
+        spec = GateSpec(**((yaml.safe_load(exp["yaml"]) or {}).get("gate") or {})) if exp else GateSpec()
+        overrides = {"max_regressed": max_regressed, "min_accuracy_delta": min_accuracy_delta,
+                     "max_cost_ratio": max_cost_ratio}
+        spec = spec.model_copy(update={k: v for k, v in overrides.items() if v is not None})
+        return report, spec
+
+    report, spec = run_guarded(build)
+    text = json.dumps(report, indent=1, sort_keys=True) if fmt == "json" else render_markdown(report)
+    if out:
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(text)
+    else:
+        typer.echo(text)
+    if gate:
+        fails = check_gate(report, spec)
+        for f in fails:
+            typer.echo(f"GATE FAIL: {f}", err=True)
+        if fails:
+            raise typer.Exit(1)
+        typer.echo("GATE PASS", err=True)
+
+
+@app.command("ci-baseline")
+def ci_baseline() -> None:
+    """Print the baseline run id used by CI (evallab.toml [ci] baseline_run)."""
+    run_id = load_settings().ci_baseline_run
+    if not run_id:
+        fail("No [ci] baseline_run set in evallab.toml")
+    typer.echo(run_id)
