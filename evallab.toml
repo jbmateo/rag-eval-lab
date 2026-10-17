@@ -15,4 +15,4 @@ path = "../rag-studio/backend"
 embedder = "fastembed"
 
 [ci]
-baseline_run = ""
+baseline_run = "db4ac97e819d"
