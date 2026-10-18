@@ -16,7 +16,7 @@ export function ExperimentView({ exp }: { exp: ExperimentFile }) {
   return (
     <div className="space-y-8">
       <section className="max-w-3xl space-y-2">
-        <Link href="/" className="text-sm text-ink-2 hover:text-ink">← Experiments</Link>
+        <Link href="/experiments/" className="text-sm text-ink-2 hover:text-ink">← Experiments</Link>
         <h1 className="text-2xl font-semibold tracking-tight">{exp.name}</h1>
         {exp.hypothesis && <p><span className="font-medium">Hypothesis: </span>{exp.hypothesis}</p>}
         {exp.description && <p className="text-ink-2">{exp.description}</p>}

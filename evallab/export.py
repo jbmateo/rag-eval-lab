@@ -25,6 +25,12 @@ def _write(path: Path, data) -> Path:
     return path
 
 
+def _findings(settings: Settings) -> list[dict]:
+    """Hypothesis verdicts from findings.yaml (a judgement kept alongside FINDINGS.md), if present."""
+    path = settings.root / "findings.yaml"
+    return (yaml.safe_load(path.read_text()) or []) if path.exists() else []
+
+
 def export_all(store: Store, settings: Settings, out_dir: Path) -> list[Path]:
     out_dir = Path(out_dir)
     written: list[Path] = []
@@ -79,6 +85,7 @@ def export_all(store: Store, settings: Settings, out_dir: Path) -> list[Path]:
         "budget": {"total": settings.budget_total_usd, "spent": store.spent_total()},
         "experiments": experiments,
         "datasets": [m["name"] for m in list_datasets(settings)],
+        "findings": _findings(settings),
     }))
 
     keep = {p.resolve() for p in written}

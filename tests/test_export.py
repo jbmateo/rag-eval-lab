@@ -53,3 +53,17 @@ def test_stale_files_removed(git_lab, write_experiment):
     stale.write_text("{}")
     export_all(store, git_lab, git_lab.export_dir)
     assert not stale.exists()
+
+
+def test_findings_exported_when_present(git_lab, write_experiment):
+    store = _populate(git_lab, write_experiment)
+    (git_lab.root / "findings.yaml").write_text("- id: H1\n  experiment: sweep\n  verdict: holds\n")
+    export_all(store, git_lab, git_lab.export_dir)
+    index = json.loads((git_lab.export_dir / "index.json").read_text())
+    assert index["findings"] == [{"id": "H1", "experiment": "sweep", "verdict": "holds"}]
+
+
+def test_findings_empty_when_absent(git_lab, write_experiment):
+    store = _populate(git_lab, write_experiment)
+    export_all(store, git_lab, git_lab.export_dir)
+    assert json.loads((git_lab.export_dir / "index.json").read_text())["findings"] == []

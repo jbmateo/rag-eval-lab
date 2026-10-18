@@ -18,7 +18,8 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
           <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3">
             <Link href="/" className="font-semibold tracking-tight">RAG Eval Lab</Link>
             <nav className="flex gap-4 text-sm text-ink-2">
-              <Link href="/" className="hover:text-ink">Experiments</Link>
+              <Link href="/" className="hover:text-ink">Overview</Link>
+              <Link href="/experiments/" className="hover:text-ink">Experiments</Link>
               {index.datasets.map((d) => (
                 <Link key={d} href={`/datasets/${d}/`} className="hover:text-ink">Dataset: {d}</Link>
               ))}

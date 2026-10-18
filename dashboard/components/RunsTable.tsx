@@ -36,7 +36,7 @@ export function RunsTable({ runs, selected, onToggle, accLabel }:
     return (x < y ? -1 : 1) * (sort.desc ? -1 : 1);
   });
   return (
-    <div className="overflow-x-auto rounded-lg border border-line bg-surface">
+    <div className="relative overflow-x-auto rounded-lg border border-line bg-surface">
       <table className="w-full text-sm">
         <thead className="text-left text-muted">
           <tr className="border-b border-line">

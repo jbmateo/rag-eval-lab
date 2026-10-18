@@ -11,7 +11,7 @@ documents). Eval Lab reaches it only through a small adapter interface, so other
 **Results so far are in [FINDINGS.md](FINDINGS.md)** — six hypotheses, a check that the regression gate works, and
 an exploratory sweep, for $0.85 of API spend in total.
 
-![Experiment page: runs table, cost vs accuracy, pass rate by question type](docs/screenshots/experiment.png)
+![Overview: headline numbers, hypothesis scoreboard and charts across all experiments](docs/screenshots/overview.png)
 
 ## What it does
 
@@ -28,8 +28,10 @@ an exploratory sweep, for $0.85 of API spend in total.
 - **Regression reports.** Case by case: improved, regressed, stable — with the reason each case flipped
   (retrieval lost, wrongly abstained, judge verdict changed…), paired bootstrap intervals, an exact McNemar test,
   and the smallest change the sample can detect. `--gate` turns a report into a pass/fail check for CI.
-- **Dashboard.** A static site: experiments, runs, cost vs accuracy, pass rate by question type, and a compare
-  view with both answers, the retrieved chunks and the judge's reasoning side by side.
+- **Dashboard.** A static site. The overview has headline numbers, a hypothesis scoreboard and charts across
+  experiments: model accuracy vs cost, the similarity-gate curve, chunk size, retrieval modes, the retrieval sweep
+  and where the budget went. Per experiment: runs, cost vs accuracy, pass rate by question type. A compare view
+  shows both answers, the retrieved chunks and the judge's reasoning side by side.
 
 ## How it fits together
 
@@ -105,6 +107,8 @@ class RAGSystem(Protocol):
 [`adapters/fake.py`](evallab/adapters/fake.py) is an ~80-line example that the test suite uses.
 
 ## Screenshots
+
+![Experiment page: runs table, cost vs accuracy, pass rate by question type](docs/screenshots/experiment.png)
 
 | Compare two runs | Case drawer |
 |---|---|

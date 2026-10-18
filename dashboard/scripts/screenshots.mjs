@@ -9,6 +9,9 @@ const base = "http://localhost:4174";
 const browser = await chromium.launch();
 try {
   const page = await browser.newPage({ viewport: { width: 1280, height: 900 }, colorScheme: "light", deviceScaleFactor: 2 });
+  await page.goto(`${base}/`);
+  await page.waitForTimeout(1200);
+  await page.screenshot({ path: `${OUT}/overview.png`, fullPage: true });
   await page.goto(`${base}/experiments/model-sweep/`);
   await page.waitForTimeout(800);
   await page.screenshot({ path: `${OUT}/experiment.png`, fullPage: true });

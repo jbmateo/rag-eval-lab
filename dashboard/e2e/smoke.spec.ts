@@ -4,7 +4,7 @@ test("experiments → experiment → compare → case drawer", async ({ page }) 
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
 
-  await page.goto("/");
+  await page.goto("/experiments/");
   // real lumen questions contain long unbreakable tokens (e-mail addresses); the overflow check below covers them
   const cards = page.locator("main ul li a");
   await expect(cards.first()).toBeVisible();
@@ -36,5 +36,19 @@ test("experiments → experiment → compare → case drawer", async ({ page }) 
 
   const [scrollWidth, innerWidth] = await page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth]);
   expect(scrollWidth).toBeLessThanOrEqual(innerWidth);
+  expect(errors).toEqual([]);
+});
+
+test("overview: tiles, scoreboard and charts render; a scoreboard link opens its comparison", async ({ page }) => {
+  const errors: string[] = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  await page.goto("/");
+  await expect(page.getByRole("heading", { name: "Overview" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Hypothesis scoreboard" })).toBeVisible();
+  await expect(page.locator("figure svg.recharts-surface").first()).toBeVisible();
+  const [scrollWidth, innerWidth] = await page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth]);
+  expect(scrollWidth).toBeLessThanOrEqual(innerWidth);
+  await page.getByRole("link", { name: "Compare" }).first().click();
+  await expect(page.getByRole("heading", { name: "Verdict" })).toBeVisible();
   expect(errors).toEqual([]);
 });

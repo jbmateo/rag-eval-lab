@@ -67,8 +67,12 @@ export interface ExperimentIndexEntry {
   name: string; slug: string; description: string; hypothesis: string | null; llm: boolean;
   runs: string[]; status: string; best_accuracy: number | null; spent: number;
 }
+export interface Finding {
+  id: string; question: string; experiment: string; verdict: string; evidence: string; compare?: [string, string];
+}
 export interface Index {
   generated_at: string;
+  findings?: Finding[];
   budget: { total: number; spent: number };
   experiments: ExperimentIndexEntry[];
   datasets: string[];
