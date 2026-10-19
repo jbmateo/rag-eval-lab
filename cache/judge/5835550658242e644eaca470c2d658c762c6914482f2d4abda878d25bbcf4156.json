@@ -1,0 +1,1 @@
+{"input_tokens": 1237, "output_tokens": 87, "verdict": {"correct": true, "reason": "The answer states the peak of 6,300 rejected commands per minute at 03:20, which matches both the gold evidence and the cited passage P1 exactly. No unsupported claims are made.", "unsupported_claims": 0}}

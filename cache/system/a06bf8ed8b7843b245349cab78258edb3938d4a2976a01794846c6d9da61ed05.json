@@ -1,0 +1,1 @@
+{"draft": {"status": "insufficient_evidence", "sentences": [], "missing": "The passages do not state an HTTP status code for E-5012. [c1] lists E-5012 as meaning the robot battery is too low to start the mission, but gives no HTTP status for it, and [c4] only says the call fails with this code."}, "stop_reason": "end_turn", "input_tokens": 5039, "output_tokens": 103}

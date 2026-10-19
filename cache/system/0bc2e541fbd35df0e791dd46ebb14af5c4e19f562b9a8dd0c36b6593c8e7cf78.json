@@ -1,0 +1,1 @@
+{"draft": {"status": "answered", "sentences": [{"text": "The peak was 6,300 rejected commands per minute at 03:20.", "citations": ["c1"]}, {"text": "The flood of rejected commands at that peak carried error E-4471.", "citations": ["c1"]}], "missing": ""}, "stop_reason": "end_turn", "input_tokens": 2861, "output_tokens": 243}

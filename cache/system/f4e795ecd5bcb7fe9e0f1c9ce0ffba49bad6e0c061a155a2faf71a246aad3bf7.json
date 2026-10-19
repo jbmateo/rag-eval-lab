@@ -1,0 +1,1 @@
+{"draft": {"status": "answered", "sentences": [{"text": "In release v3.3.1, dated 2026-02-24, the median time for a robot to reconnect after a Wi-Fi roam fell from 14 seconds to 6 seconds.", "citations": ["c2"]}, {"text": "That is a drop of 8 seconds.", "citations": ["c2"]}], "missing": ""}, "stop_reason": "end_turn", "input_tokens": 5157, "output_tokens": 124}

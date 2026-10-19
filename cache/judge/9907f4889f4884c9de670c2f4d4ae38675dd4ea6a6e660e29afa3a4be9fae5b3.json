@@ -1,0 +1,1 @@
+{"input_tokens": 3050, "output_tokens": 107, "verdict": {"correct": true, "reason": "The answer correctly states the 256-waypoint maximum per mission, the E-4472/HTTP 422 rejection, and the follow_up chaining advice, all of which appear in the cited passages and gold evidence. The answer's claims are all supported.", "unsupported_claims": 0}}

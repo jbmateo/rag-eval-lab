@@ -1,0 +1,1 @@
+{"input_tokens": 920, "output_tokens": 97, "verdict": {"correct": true, "reason": "The answer correctly states that LUM-4329 fixed the bug where webhook signatures were computed over a re-serialised body instead of the raw body, which matches the gold evidence and is directly stated in cited passage P1.", "unsupported_claims": 0}}

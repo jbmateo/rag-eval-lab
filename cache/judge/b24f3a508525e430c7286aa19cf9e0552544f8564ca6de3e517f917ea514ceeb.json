@@ -1,0 +1,1 @@
+{"input_tokens": 1195, "output_tokens": 100, "verdict": {"correct": true, "reason": "The answer correctly states the gold evidence that employees whose role allows it may work from home up to 3 days per week. The second claim about keeping at least one common office day is stated in the cited passage P1, so it is supported and not unsupported.", "unsupported_claims": 0}}

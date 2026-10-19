@@ -1,0 +1,1 @@
+{"input_tokens": 1439, "output_tokens": 106, "verdict": {"correct": true, "reason": "The answer correctly states that API version 1 will be switched off on 2026-11-04, matching the gold evidence and cited passage P1. The second point that version 1 remains supported until that date is directly supported by P2 and consistent with the gold evidence.", "unsupported_claims": 0}}

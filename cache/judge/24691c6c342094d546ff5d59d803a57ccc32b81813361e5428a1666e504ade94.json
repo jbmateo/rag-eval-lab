@@ -1,0 +1,1 @@
+{"input_tokens": 2033, "output_tokens": 105, "verdict": {"correct": true, "reason": "The answer states that FLEET-LAT-HIGH fired at 02:17 UTC on 14 March 2026 because median dispatch latency rose above 5 seconds, which matches the gold evidence and the cited timeline passage exactly.", "unsupported_claims": 0}}

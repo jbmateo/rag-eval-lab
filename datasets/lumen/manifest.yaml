@@ -1,0 +1,12 @@
+name: lumen
+corpus:
+  path: ../rag-studio/backend/research/corpus
+  lock: corpus.lock
+versions:
+- version: v1
+  file: v1.jsonl
+  sha256: eecccbab66dae188332c3d2e38d8daefa82df5c9aacae96e280975b561ce6228
+  cases: 60
+  created: '2026-10-18'
+  parent: null
+  changes: Imported from rag-studio research/questions.jsonl @ f858310

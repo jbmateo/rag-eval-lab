@@ -1,0 +1,1 @@
+{"draft": {"status": "insufficient_evidence", "sentences": [], "missing": "The passages describe releases from v3.2.0 through v3.4.1 and mention API version 1 switch-off on 2026-11-04, but none gives a release date or schedule for v3.5.0."}, "stop_reason": "end_turn", "input_tokens": 4892, "output_tokens": 91}

@@ -1,0 +1,1 @@
+{"input_tokens": 2123, "output_tokens": 112, "verdict": {"correct": true, "reason": "The answer correctly states that LUM-4560 introduced a limit of 20 commands per minute per robot on POST /robots/{id}/commands, matching the gold evidence. The E-4290 rejection detail is stated in the cited passage P1, so it is supported.", "unsupported_claims": 0}}

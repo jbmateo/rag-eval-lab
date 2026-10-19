@@ -1,0 +1,14 @@
+name: gate-sweep
+description: RAG Studio RQ2 restated, reduced to three thresholds to fit the budget — the relevance gate's answer-rate vs refusal trade-off.
+hypothesis: >-
+  H2′ (H2 from rag-studio commit 8c829e1, sweep reduced from 0.20–0.60 in nine steps to 0.25/0.35/0.45 for
+  budget): raising min_similarity from 0.25 to 0.45 does not raise the answer rate on answerable questions and
+  does raise refusal recall on unanswerable questions; some threshold in the sweep reaches an answer rate of at
+  least 80% and refusal recall of at least 70% together. H2′ is rejected if any clause fails.
+system: rag_studio
+dataset: lumen@v1
+llm: true
+judge: true
+base: {model: claude-haiku-5-5}
+grid:
+  min_similarity: [0.25, 0.35, 0.45]

@@ -1,0 +1,14 @@
+name: rq1-retrieval
+description: RAG Studio RQ1 restated — does hybrid retrieval beat vector-only and BM25-only? Retrieval only, no API calls.
+# Copied verbatim from rag-studio FINDINGS.md, pre-registered in rag-studio commit 8c829e1.
+hypothesis: >-
+  H1: On `exact_term` questions, hybrid hit@8 is at least 10 points above vector-only hit@8. On `natural`
+  questions, hybrid hit@8 is within 5 points of vector-only hit@8 (not lower by more than 5). Overall, hybrid
+  hit@8 is at least as high as the better of the two single modes. H1 is rejected if hybrid's `exact_term`
+  gain over vector is under 10 points, or if hybrid is more than 5 points below vector on `natural`.
+system: rag_studio
+dataset: lumen@v1
+llm: false
+grid:
+  retrieval_mode: [vector, bm25, hybrid]
+gate: {max_regressed: 0}

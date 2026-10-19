@@ -1,0 +1,1 @@
+{"input_tokens": 1054, "output_tokens": 103, "verdict": {"correct": true, "reason": "The answer states the ticket reported robots in hall 2 not picking up new missions, which matches the gold evidence. The added detail that it arrived at 02:31 UTC as the first customer ticket is directly stated in the cited passage P1.", "unsupported_claims": 0}}

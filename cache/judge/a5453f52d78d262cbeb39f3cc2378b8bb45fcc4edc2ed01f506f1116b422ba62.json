@@ -1,0 +1,1 @@
+{"input_tokens": 1030, "output_tokens": 102, "verdict": {"correct": true, "reason": "The answer correctly states up to 3 days per week from home, matching the gold evidence. The other two points (team-level agreement with a common office day, and robot-related roles being on site) are directly stated in the cited passage P1, so they are supported.", "unsupported_claims": 0}}

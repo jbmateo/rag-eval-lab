@@ -1,0 +1,43 @@
+# Verdicts from FINDINGS.md, shown on the dashboard overview. Judgements, not computed: update with FINDINGS.
+- id: H1
+  question: Does hybrid retrieval beat vector-only on exact terms by ≥ 10 points?
+  experiment: rq1-retrieval
+  verdict: rejected
+  evidence: exact-term hit@8 gain +5 pts (needed ≥ 10)
+  compare: [retrieval_mode=vector, retrieval_mode=hybrid]
+- id: H2′
+  question: Does raising the similarity gate trade answers for refusals?
+  experiment: gate-sweep
+  verdict: rejected
+  evidence: the gate never fires at 0.25–0.45 (0 of 60 questions gated)
+  compare: [min_similarity=0.25, min_similarity=0.45]
+- id: H3′
+  question: Does citation verification remove unsupported claims?
+  experiment: verify-ablation
+  verdict: rejected
+  evidence: raw citation validity 100% — nothing to remove
+  compare: [verify_citations=False, verify_citations=True]
+- id: H4
+  question: Do small chunks retrieve better and large chunks answer more?
+  experiment: chunk-sweep
+  verdict: rejected
+  evidence: hit@8 gap −5 pts (wrong sign), answer-rate gap 0
+  compare: [chunk_chars=4000, chunk_chars=1000]
+- id: H5
+  question: Is Haiku within 5 points of Sonnet at ≤ 10% of the cost?
+  experiment: model-sweep
+  verdict: holds
+  evidence: +3.3 pts [−5.0, +11.7] at 5.7% of Sonnet's cost per case
+  compare: [model=claude-sonnet-5-5, model=claude-haiku-5-5]
+- id: H6
+  question: Does a terse, cite-everything prompt reduce unsupported claims?
+  experiment: prompt-sweep
+  verdict: holds (within noise)
+  evidence: unsupported-claim share 12.5% → 7.5%, CI [−12.5, 0.0]
+  compare: [prompt_variant=default, prompt_variant=terse_cite_all]
+- id: Gate
+  question: Does the regression gate catch a plausible bad change?
+  experiment: gate-validation
+  verdict: holds
+  evidence: 5 regressed cases flagged, gate exits 1
+  compare: [baseline, aggressive]

@@ -1,0 +1,1 @@
+{"input_tokens": 1171, "output_tokens": 107, "verdict": {"correct": true, "reason": "The answer correctly states that claims above EUR 500 need director approval, which matches the gold evidence and cited passage P1. The additional statement that the manager approves claims up to EUR 500 is directly stated in P1, so no unsupported claims were found.", "unsupported_claims": 0}}

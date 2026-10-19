@@ -1,0 +1,10 @@
+name: probe
+description: Calibration only — measures real tokens and cost per case (including thinking) for each model before any sweep.
+hypothesis: "Calibration only: measures tokens per case; no claim."
+system: rag_studio
+dataset: lumen@v1
+subset: balanced-3
+llm: true
+judge: true
+grid:
+  model: [claude-haiku-5-5, claude-sonnet-5-5]

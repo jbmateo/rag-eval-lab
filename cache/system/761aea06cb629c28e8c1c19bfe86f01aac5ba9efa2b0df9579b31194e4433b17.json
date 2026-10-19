@@ -1,0 +1,1 @@
+{"draft": {"status": "answered", "sentences": [{"text": "A bearer token issued through the Lumen Fleet API is valid for 3600 seconds after it is issued.", "citations": ["c5"]}], "missing": ""}, "stop_reason": "end_turn", "input_tokens": 4216, "output_tokens": 229}

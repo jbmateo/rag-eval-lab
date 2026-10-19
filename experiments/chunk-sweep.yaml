@@ -1,0 +1,15 @@
+name: chunk-sweep
+description: RAG Studio RQ4 restated with claude-haiku-5-5 — how chunk size affects retrieval and answers.
+# H4 copied verbatim from rag-studio FINDINGS.md (commit 8c829e1), with its 2026-10-17 amendment's rejection rule.
+hypothesis: >-
+  H4: Chunk size 1000 has hit@8 at least 5 points above chunk size 4000 (finer chunks rank evidence higher),
+  while chunk size 4000 has an answer rate at least 5 points above chunk size 1000 (more context per chunk).
+  H4 is rejected if either gap is under 5 points or has the opposite sign. (Run here with claude-haiku-5-5
+  answering instead of claude-sonnet-5-5.)
+system: rag_studio
+dataset: lumen@v1
+llm: true
+judge: true
+base: {model: claude-haiku-5-5}
+grid:
+  chunk_chars: [1000, 2000, 4000]

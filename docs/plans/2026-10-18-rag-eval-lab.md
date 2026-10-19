@@ -19,7 +19,7 @@
 - Pricing (USD per MTok, `pricing.yaml`, as of 2026-10-06): sonnet-5-5 in 2.00 / out 10.00; haiku-5-5 in 0.10 / out 0.50.
 - Project budget hard cap `budget.total_usd = 1.00` in `evallab.toml`. Every paid run requires the user's explicit `y`; agents never pass `--yes` to a paid run.
 - No test calls the real API. All tests run offline at $0.
-- Never mention portfolios, interviewers or "showcasing" in any file or commit message.
+- Describe the project as research on its own merits in every file and commit message; no self-promotional framing.
 - Specs live in `docs/design/`, plans in `docs/plans/`.
 - Commit messages end with `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`.
 - Dashboard: colour-blind-safe palette; improved/regressed always icon + label, never colour alone; light and dark; usable at 375 px.
@@ -516,7 +516,7 @@ Work in `../rag-studio` on a new branch `feat/eval-hooks` created from `feat/v1`
 - Create: `FINDINGS.md`, `README.md`, `docs/screenshots/*.png`
 
 - [ ] **Step 1: FINDINGS.md** — per hypothesis H1–H6: statement as registered (with commit sha), setup (experiment file, dataset version, system version, n, subset), results table with CIs and MDE, verdict, what changed because of it. Sections: judge reliability (κ overall and per model), gate validation walkthrough, limitations (n = 60, Haiku judge self-preference, H5 subset size, single corpus, chunker change since Studio's RQ1), actual total spend. Steps not run are listed as not run, with the reason.
-- [ ] **Step 2: README.md** — what it is and why (systematic improvement over demos), architecture diagram (adapter → runner → store → export → dashboard), quickstart (`make install`, `make test`, `evallab dataset validate lumen@v1`, `evallab run experiments/rq1-retrieval.yaml`, `evallab compare …`, `make dashboard`), how to add an adapter (the `RAGSystem` protocol in 15 lines), screenshots, link to RAG Studio. No portfolio/interview wording.
+- [ ] **Step 2: README.md** — what it is and why (systematic improvement over demos), architecture diagram (adapter → runner → store → export → dashboard), quickstart (`make install`, `make test`, `evallab dataset validate lumen@v1`, `evallab run experiments/rq1-retrieval.yaml`, `evallab compare …`, `make dashboard`), how to add an adapter (the `RAGSystem` protocol in 15 lines), screenshots, link to RAG Studio. No self-promotional framing.
 - [ ] **Step 3:** Screenshots via the browser preview: experiments page, experiment scatter, compare view with drawer open (desktop), and one mobile.
-- [ ] **Step 4:** Final checks: `make test`, `make test-slow`, dashboard build + Playwright all pass; `grep -rniE "portfolio|interview" --exclude-dir=node_modules .` returns nothing.
+- [ ] **Step 4:** Final checks: `make test`, `make test-slow`, dashboard build + Playwright all pass; no self-promotional framing anywhere in the repo.
 - [ ] **Step 5: Commit** `docs: findings, README and screenshots`. Ask the user before creating a GitHub repo or pushing.

@@ -1,0 +1,1 @@
+{"draft": {"status": "answered", "sentences": [{"text": "The FLEET-LAT-HIGH alert fired at 02:17 UTC on 14 March 2026 because the median dispatch latency had risen above 5 seconds.", "citations": ["c1"]}], "missing": ""}, "stop_reason": "end_turn", "input_tokens": 10268, "output_tokens": 317}

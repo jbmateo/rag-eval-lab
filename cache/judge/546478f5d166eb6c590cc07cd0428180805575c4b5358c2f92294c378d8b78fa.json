@@ -1,0 +1,1 @@
+{"input_tokens": 1108, "output_tokens": 77, "verdict": {"correct": true, "reason": "The answer correctly identifies operational logs of the fleet service as the category retained for 13 months, matching the gold evidence and cited passage P1 exactly.", "unsupported_claims": 0}}

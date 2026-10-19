@@ -1,0 +1,1 @@
+{"input_tokens": 1076, "output_tokens": 103, "verdict": {"correct": true, "reason": "The answer states the FLEET-LAT-HIGH alert fired at 02:17 UTC on 14 March due to median dispatch latency above 5 seconds, which matches the gold evidence and is directly stated in cited passage P1.", "unsupported_claims": 0}}

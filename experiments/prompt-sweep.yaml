@@ -1,0 +1,14 @@
+name: prompt-sweep
+description: Does asking for terse, fully cited answers reduce unsupported claims?
+hypothesis: >-
+  H6: With prompt_variant terse_cite_all, the share of answered cases the judge finds at least one unsupported
+  claim in is at least 5 points lower than with the default prompt, and the answer rate on answerable questions
+  is not more than 5 points lower. H6 is rejected if either clause fails.
+system: rag_studio
+dataset: lumen@v1
+llm: true
+judge: true
+base: {model: claude-haiku-5-5}
+grid:
+  prompt_variant: [default, terse_cite_all]
+gate: {max_regressed: 0}

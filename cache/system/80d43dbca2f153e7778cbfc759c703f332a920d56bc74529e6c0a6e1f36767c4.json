@@ -1,0 +1,1 @@
+{"draft": {"status": "insufficient_evidence", "sentences": [], "missing": "The passages do not specify a maximum request body size in kilobytes. E-4472 is tied to the number of waypoints in a mission (more than 256), not to a byte size of the request body."}, "stop_reason": "end_turn", "input_tokens": 5044, "output_tokens": 86}

@@ -1,0 +1,1 @@
+{"input_tokens": 1355, "output_tokens": 113, "verdict": {"correct": true, "reason": "The answer correctly states the platform retries up to 6 times with exponential backoff starting at 30 seconds, matching the gold evidence and cited passage P1. The additional details (10-second 2xx timeout, dropped event and degraded marking) are all stated in P1.", "unsupported_claims": 0}}

@@ -1,0 +1,1 @@
+{"input_tokens": 1200, "output_tokens": 101, "verdict": {"correct": true, "reason": "The answer correctly states the 38-hour standard working week over five days, which matches the gold evidence and cited passage. The second point about part-time employees scaling hours in proportion is directly stated in the cited passage P1, so it is supported.", "unsupported_claims": 0}}

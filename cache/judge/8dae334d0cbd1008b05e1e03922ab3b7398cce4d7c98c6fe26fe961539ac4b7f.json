@@ -1,0 +1,1 @@
+{"input_tokens": 2176, "output_tokens": 108, "verdict": {"correct": true, "reason": "The answer correctly states the 15 percent threshold for refusing mission start with error E-5012, and that the LD-300 charges an LR7-X2 from 0 to 80 percent in 52 minutes, both matching the cited passages and gold evidence.", "unsupported_claims": 0}}

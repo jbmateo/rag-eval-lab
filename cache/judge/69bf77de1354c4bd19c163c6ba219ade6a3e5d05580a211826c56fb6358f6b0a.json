@@ -1,0 +1,1 @@
+{"input_tokens": 1251, "output_tokens": 103, "verdict": {"correct": true, "reason": "The answer correctly states the 6,300 rejected commands per minute peak at 03:20, which matches the gold evidence and cited passage. The mention of error E-4471 is also stated in the cited passage, so no unsupported claims are present.", "unsupported_claims": 0}}

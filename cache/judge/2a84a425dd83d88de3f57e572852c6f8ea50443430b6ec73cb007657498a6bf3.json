@@ -1,0 +1,1 @@
+{"input_tokens": 1202, "output_tokens": 89, "verdict": {"correct": true, "reason": "The answer correctly states the cap was raised from 128 to 256, matching the gold evidence. The E-4472 rejection and the note that older clients need no change are both stated in the cited passage P1.", "unsupported_claims": 0}}

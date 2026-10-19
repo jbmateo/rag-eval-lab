@@ -1,0 +1,54 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: rag-eval-lab
+      # RAG Studio is the system under test; it is private, so this needs a read token.
+      - uses: actions/checkout@v4
+        with:
+          repository: jbmateo/rag-studio
+          ref: feat/eval-hooks
+          path: rag-studio
+          token: ${{ secrets.RAG_STUDIO_TOKEN }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        working-directory: rag-eval-lab
+        run: make install
+      - name: Tests
+        working-directory: rag-eval-lab
+        run: make test
+      - name: Retrieval regression gate (free, no API calls)
+        working-directory: rag-eval-lab
+        run: |
+          .venv/bin/evallab run experiments/rq1-retrieval.yaml --yes
+          .venv/bin/evallab compare "$(.venv/bin/evallab ci-baseline)" rq1-retrieval:retrieval_mode=hybrid --gate --max-regressed 0
+
+  dashboard:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: dashboard
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: dashboard/package-lock.json
+      - run: npm ci
+      - run: npx tsc --noEmit
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test

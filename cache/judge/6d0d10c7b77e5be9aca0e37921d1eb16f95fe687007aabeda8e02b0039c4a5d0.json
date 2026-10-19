@@ -1,0 +1,1 @@
+{"input_tokens": 1151, "output_tokens": 82, "verdict": {"correct": true, "reason": "The answer states the bearer token is valid for 3600 seconds after issuance, which matches the gold evidence and cited passage P1. It makes no additional unsupported claims.", "unsupported_claims": 0}}

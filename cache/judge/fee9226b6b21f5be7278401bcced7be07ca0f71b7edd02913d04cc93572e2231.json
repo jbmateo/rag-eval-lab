@@ -1,0 +1,1 @@
+{"input_tokens": 2342, "output_tokens": 114, "verdict": {"correct": true, "reason": "The answer correctly states the waypoint cap was raised from 128 to 256 in v3.4.0, matching the gold evidence. The E-4472 rejection claim is supported by P1 and P2, and the compatibility note is supported by P1's upgrade note and P3.", "unsupported_claims": 0}}

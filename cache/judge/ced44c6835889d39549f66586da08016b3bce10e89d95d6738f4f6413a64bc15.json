@@ -1,0 +1,1 @@
+{"input_tokens": 976, "output_tokens": 336, "verdict": {"correct": true, "reason": "The answer correctly reports the median reconnect time falling from 14 to 6 seconds, an 8-second drop, which matches the gold evidence and cited passage P1. The version label 'v3.3.1' does not appear in the cited passages, so it is counted as one unsupported claim.", "unsupported_claims": 1}}

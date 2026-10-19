@@ -1,0 +1,1 @@
+{"input_tokens": 1363, "output_tokens": 107, "verdict": {"correct": true, "reason": "The answer correctly states that INC-20260314-03 was the first customer ticket and reported robots in hall 2 not picking up new missions, both directly stated in P1. The arrival time of 02:31 is also given in P1, so no unsupported claims.", "unsupported_claims": 0}}

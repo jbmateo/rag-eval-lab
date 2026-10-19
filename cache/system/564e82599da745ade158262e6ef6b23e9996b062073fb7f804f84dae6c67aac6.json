@@ -1,0 +1,1 @@
+{"draft": {"status": "answered", "sentences": [{"text": "In v3.4.0, the maximum number of waypoints in a mission was raised from 128 to 256.", "citations": ["c1"]}, {"text": "Missions with more waypoints than the new limit are rejected with E-4472.", "citations": ["c1", "c8"]}], "missing": ""}, "stop_reason": "end_turn", "input_tokens": 4803, "output_tokens": 350}

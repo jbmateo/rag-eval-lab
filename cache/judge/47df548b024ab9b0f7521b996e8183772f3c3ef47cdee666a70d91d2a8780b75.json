@@ -1,0 +1,1 @@
+{"input_tokens": 1199, "output_tokens": 101, "verdict": {"correct": true, "reason": "The answer correctly states that carried-over days expire on 31 March, matching the gold evidence; the additional claims about the 5-day carry-over limit, loss of excess days, and deadline extension are all stated in the cited passage P1.", "unsupported_claims": 0}}

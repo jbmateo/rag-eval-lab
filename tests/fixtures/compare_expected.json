@@ -1,0 +1,494 @@
+{
+ "base": {
+  "experiment": "fixture",
+  "label": "quality=0.4",
+  "run_id": "base00000001",
+  "status": "complete"
+ },
+ "by_tag": {
+  "exact_term": {
+   "base_accuracy": 0.6666666666666666,
+   "cand_accuracy": 0.3333333333333333,
+   "improved": 1,
+   "n": 3,
+   "regressed": 2
+  },
+  "paraphrase": {
+   "base_accuracy": 0.5,
+   "cand_accuracy": 0.5,
+   "improved": 1,
+   "n": 4,
+   "regressed": 1
+  },
+  "unanswerable": {
+   "base_accuracy": 0.5,
+   "cand_accuracy": 0.5,
+   "improved": 1,
+   "n": 2,
+   "regressed": 1
+  }
+ },
+ "cand": {
+  "experiment": "fixture",
+  "label": "quality=0.9",
+  "run_id": "cand00000002",
+  "status": "complete"
+ },
+ "cases": [
+  {
+   "answerable": true,
+   "base": {
+    "answer_status": "answered",
+    "error": null,
+    "judge": {
+     "correct": true,
+     "reason": "r",
+     "unsupported_claims": 0
+    },
+    "pass": true,
+    "sentences": [
+     "Answer a1."
+    ],
+    "status": "ok"
+   },
+   "cand": {
+    "answer_status": "answered",
+    "error": null,
+    "judge": {
+     "correct": false,
+     "reason": "r",
+     "unsupported_claims": 0
+    },
+    "pass": false,
+    "sentences": [
+     "Answer a1."
+    ],
+    "status": "ok"
+   },
+   "case_id": "a1",
+   "question": "Question a1?",
+   "reason": "retrieval_lost",
+   "status": "regressed",
+   "tag": "exact_term"
+  },
+  {
+   "answerable": true,
+   "base": {
+    "answer_status": "answered",
+    "error": null,
+    "judge": {
+     "correct": true,
+     "reason": "r",
+     "unsupported_claims": 0
+    },
+    "pass": true,
+    "sentences": [
+     "Answer a3."
+    ],
+    "status": "ok"
+   },
+   "cand": {
+    "answer_status": "abstained",
+    "error": null,
+    "judge": null,
+    "pass": false,
+    "sentences": [],
+    "status": "ok"
+   },
+   "case_id": "a3",
+   "question": "Question a3?",
+   "reason": "wrongly_abstained",
+   "status": "regressed",
+   "tag": "paraphrase"
+  },
+  {
+   "answerable": true,
+   "base": {
+    "answer_status": "answered",
+    "error": null,
+    "judge": {
+     "correct": true,
+     "reason": "r",
+     "unsupported_claims": 0
+    },
+    "pass": true,
+    "sentences": [
+     "Answer a7."
+    ],
+    "status": "ok"
+   },
+   "cand": {
+    "answer_status": "answered",
+    "error": null,
+    "judge": {
+     "correct": true,
+     "reason": "r",
+     "unsupported_claims": 2
+    },
+    "pass": false,
+    "sentences": [
+     "Answer a7."
+    ],
+    "status": "ok"
+   },
+   "case_id": "a7",
+   "question": "Question a7?",
+   "reason": "unsupported_claims",
+   "status": "regressed",
+   "tag": "exact_term"
+  },
+  {
+   "answerable": false,
+   "base": {
+    "answer_status": "abstained",
+    "error": null,
+    "judge": null,
+    "pass": true,
+    "sentences": [],
+    "status": "ok"
+   },
+   "cand": {
+    "answer_status": "answered",
+    "error": null,
+    "judge": {
+     "correct": true,
+     "reason": "r",
+     "unsupported_claims": 0
+    },
+    "pass": false,
+    "sentences": [
+     "Answer u1."
+    ],
+    "status": "ok"
+   },
+   "case_id": "u1",
+   "question": "Question u1?",
+   "reason": "hallucinated",
+   "status": "regressed",
+   "tag": "unanswerable"
+  },
+  {
+   "answerable": true,
+   "base": {
+    "answer_status": "answered",
+    "error": null,
+    "judge": {
+     "correct": false,
+     "reason": "r",
+     "unsupported_claims": 0
+    },
+    "pass": false,
+    "sentences": [
+     "Answer a2."
+    ],
+    "status": "ok"
+   },
+   "cand": {
+    "answer_status": "answered",
+    "error": null,
+    "judge": {
+     "correct": true,
+     "reason": "r",
+     "unsupported_claims": 0
+    },
+    "pass": true,
+    "sentences": [
+     "Answer a2."
+    ],
+    "status": "ok"
+   },
+   "case_id": "a2",
+   "question": "Question a2?",
+   "reason": "judge_correct",
+   "status": "improved",
+   "tag": "exact_term"
+  },
+  {
+   "answerable": true,
+   "base": {
+    "answer_status": "abstained",
+    "error": null,
+    "judge": null,
+    "pass": false,
+    "sentences": [],
+    "status": "ok"
+   },
+   "cand": {
+    "answer_status": "answered",
+    "error": null,
+    "judge": {
+     "correct": true,
+     "reason": "r",
+     "unsupported_claims": 0
+    },
+    "pass": true,
+    "sentences": [
+     "Answer a8."
+    ],
+    "status": "ok"
+   },
+   "case_id": "a8",
+   "question": "Question a8?",
+   "reason": "retrieval_gained",
+   "status": "improved",
+   "tag": "paraphrase"
+  },
+  {
+   "answerable": false,
+   "base": {
+    "answer_status": "answered",
+    "error": null,
+    "judge": {
+     "correct": true,
+     "reason": "r",
+     "unsupported_claims": 0
+    },
+    "pass": false,
+    "sentences": [
+     "Answer u2."
+    ],
+    "status": "ok"
+   },
+   "cand": {
+    "answer_status": "abstained",
+    "error": null,
+    "judge": null,
+    "pass": true,
+    "sentences": [],
+    "status": "ok"
+   },
+   "case_id": "u2",
+   "question": "Question u2?",
+   "reason": "correctly_abstained",
+   "status": "improved",
+   "tag": "unanswerable"
+  },
+  {
+   "answerable": true,
+   "base": {
+    "answer_status": "answered",
+    "error": null,
+    "judge": {
+     "correct": false,
+     "reason": "r",
+     "unsupported_claims": 0
+    },
+    "pass": false,
+    "sentences": [
+     "Answer a5."
+    ],
+    "status": "ok"
+   },
+   "cand": {
+    "answer_status": "answered",
+    "error": null,
+    "judge": {
+     "correct": false,
+     "reason": "r",
+     "unsupported_claims": 0
+    },
+    "pass": false,
+    "sentences": [
+     "Answer a5."
+    ],
+    "status": "ok"
+   },
+   "case_id": "a5",
+   "question": "Question a5?",
+   "reason": null,
+   "status": "stable_fail",
+   "tag": "paraphrase"
+  },
+  {
+   "answerable": true,
+   "base": {
+    "answer_status": "answered",
+    "error": null,
+    "judge": {
+     "correct": true,
+     "reason": "r",
+     "unsupported_claims": 0
+    },
+    "pass": true,
+    "sentences": [
+     "Answer a4."
+    ],
+    "status": "ok"
+   },
+   "cand": {
+    "answer_status": "answered",
+    "error": null,
+    "judge": {
+     "correct": true,
+     "reason": "r",
+     "unsupported_claims": 0
+    },
+    "pass": true,
+    "sentences": [
+     "Answer a4."
+    ],
+    "status": "ok"
+   },
+   "case_id": "a4",
+   "question": "Question a4?",
+   "reason": null,
+   "status": "stable_pass",
+   "tag": "paraphrase"
+  },
+  {
+   "answerable": true,
+   "base": {
+    "answer_status": "answered",
+    "error": null,
+    "judge": {
+     "correct": true,
+     "reason": "r",
+     "unsupported_claims": 0
+    },
+    "pass": true,
+    "sentences": [
+     "Answer a6."
+    ],
+    "status": "ok"
+   },
+   "cand": {
+    "answer_status": null,
+    "error": "RuntimeError: boom",
+    "judge": null,
+    "pass": null,
+    "sentences": [],
+    "status": "error"
+   },
+   "case_id": "a6",
+   "question": "Question a6?",
+   "reason": null,
+   "status": "not_comparable",
+   "tag": "exact_term"
+  },
+  {
+   "answerable": true,
+   "base": null,
+   "cand": {
+    "answer_status": "answered",
+    "error": null,
+    "judge": {
+     "correct": true,
+     "reason": "r",
+     "unsupported_claims": 0
+    },
+    "pass": true,
+    "sentences": [
+     "Answer n9."
+    ],
+    "status": "ok"
+   },
+   "case_id": "n9",
+   "question": "Question n9?",
+   "reason": null,
+   "status": "not_comparable",
+   "tag": "paraphrase"
+  }
+ ],
+ "config_diff": {
+  "quality": [
+   0.4,
+   0.9
+  ]
+ },
+ "counts": {
+  "improved": 3,
+  "not_comparable": 2,
+  "regressed": 4,
+  "stable_fail": 1,
+  "stable_pass": 1
+ },
+ "errored_after_pass": 1,
+ "mcnemar_p": 1.0,
+ "mde": 0.8231226301089837,
+ "n_compared": 9,
+ "other": {
+  "abstention_precision": {
+   "base": 0.5,
+   "cand": 0.5
+  },
+  "abstention_recall": {
+   "base": 0.5,
+   "cand": 0.5
+  },
+  "answer_rate": {
+   "base": 0.8,
+   "cand": 0.8
+  },
+  "citation_validity": {
+   "base": 1.0,
+   "cand": 1.0
+  },
+  "evidence_recall@k": {
+   "base": 0.5,
+   "cand": 0.5
+  },
+  "hit@k": {
+   "base": 0.5,
+   "cand": 0.5
+  },
+  "latency_p50_ms": {
+   "base": 100,
+   "cand": 100
+  },
+  "latency_p95_ms": {
+   "base": 120,
+   "cand": 120
+  }
+ },
+ "summary": {
+  "accuracy": {
+   "base": 0.5555555555555556,
+   "cand": 0.4444444444444444,
+   "delta": -0.1111111111111111,
+   "hi": 0.4444444444444444,
+   "lo": -0.6666666666666666,
+   "n": 9,
+   "verdict": "no detectable difference"
+  },
+  "cost_per_case": {
+   "base": 0.001,
+   "cand": 0.002,
+   "delta": 0.001,
+   "hi": 0.001,
+   "lo": 0.001,
+   "n": 9,
+   "verdict": "worse"
+  },
+  "latency_ms": {
+   "base": 100.0,
+   "cand": 86.125,
+   "delta": -13.875,
+   "hi": -3.875,
+   "lo": -24.375,
+   "n": 8,
+   "verdict": "better"
+  },
+  "mrr": {
+   "base": 0.4757142857142857,
+   "cand": 0.44,
+   "delta": -0.03571428571428571,
+   "hi": 0.25,
+   "lo": -0.39285714285714285,
+   "n": 7,
+   "verdict": "no detectable difference"
+  }
+ },
+ "versions": {
+  "base": {
+   "dataset": "drones@v1",
+   "judge_model": "fake",
+   "system_version": "fake@1"
+  },
+  "cand": {
+   "dataset": "drones@v1",
+   "judge_model": "fake",
+   "system_version": "fake@1"
+  }
+ },
+ "warnings": []
+}

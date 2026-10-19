@@ -1,0 +1,1 @@
+{"draft": {"status": "answered", "sentences": [{"text": "The LR7-X2 requires firmware v3.2.0 or later, and v3.2.0 is the oldest firmware that can run on the LR7-X2.", "citations": ["c1", "c2", "c3"]}, {"text": "The v3.2.0 release was published on 2025-11-04.", "citations": ["c1"]}], "missing": ""}, "stop_reason": "end_turn", "input_tokens": 3146, "output_tokens": 391}

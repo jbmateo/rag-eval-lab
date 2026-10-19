@@ -1,0 +1,8 @@
+name: baseline
+description: RAG Studio's default pipeline answered by claude-haiku-5-5 and judged by claude-haiku-5-5 — the reference run every paid sweep shares.
+hypothesis: "Reference run for H2′–H6; no claim of its own."
+system: rag_studio
+dataset: lumen@v1
+llm: true
+judge: true
+base: {model: claude-haiku-5-5}

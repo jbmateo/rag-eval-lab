@@ -1,0 +1,1 @@
+{"input_tokens": 1370, "output_tokens": 104, "verdict": {"correct": true, "reason": "The answer's core claim matches the gold evidence: the previous major version is supported for 12 months after the new one is released. The second point's date 2026-11-04 and twelve-month framing are stated in P2 and P3, so no unsupported claims.", "unsupported_claims": 0}}

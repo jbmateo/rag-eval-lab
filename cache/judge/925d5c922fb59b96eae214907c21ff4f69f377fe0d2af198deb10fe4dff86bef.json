@@ -1,0 +1,1 @@
+{"input_tokens": 873, "output_tokens": 88, "verdict": {"correct": true, "reason": "The answer correctly states one month of notice during probation, matching the gold evidence. Its first claim that probation is 6 months is directly stated in the cited passage P1, so no unsupported claims.", "unsupported_claims": 0}}

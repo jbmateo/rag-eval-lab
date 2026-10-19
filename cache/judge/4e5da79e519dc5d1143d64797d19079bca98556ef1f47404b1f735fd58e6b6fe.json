@@ -1,0 +1,1 @@
+{"input_tokens": 3001, "output_tokens": 94, "verdict": {"correct": true, "reason": "The answer correctly states E-4472 means a mission has more than 256 waypoints with HTTP status 422, matching the gold evidence and cited passages; the second point restates the same fact from P2 and is supported.", "unsupported_claims": 0}}

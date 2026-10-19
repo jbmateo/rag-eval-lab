@@ -1,0 +1,15 @@
+name: model-sweep
+description: Is claude-haiku-5-5 good enough for grounded, abstaining answers? Same pipeline, judge and dataset; only the answering model changes.
+# Sized after the calibration probe: $0.78 remained and a sonnet case measured ~$0.011, so the full dataset fits
+# (plan rule n = remaining / cost per case, capped at 60) and no subset is needed.
+hypothesis: >-
+  H5: claude-haiku-5-5 accuracy is within 5 points of claude-sonnet-5-5 at no more than 10% of the system
+  cost per case. H5 is rejected if haiku's accuracy is more than 5 points below sonnet's, or its cost per case
+  is above 10% of sonnet's.
+system: rag_studio
+dataset: lumen@v1
+llm: true
+judge: true
+grid:
+  model: [claude-sonnet-5-5, claude-haiku-5-5]
+gate: {min_accuracy_delta: -0.05, max_cost_ratio: 0.10}

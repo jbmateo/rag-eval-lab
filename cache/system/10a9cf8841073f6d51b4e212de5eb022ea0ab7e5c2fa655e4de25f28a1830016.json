@@ -1,0 +1,1 @@
+{"draft": {"status": "insufficient_evidence", "sentences": [], "missing": "The passages do not say who approved the v3.3.2 hotfix. They name Teodor Vance as the owner of action item AI-1, which was shipped as the v3.3.2 hotfix, but ownership is not the same as approval, and no approver is named."}, "stop_reason": "end_turn", "input_tokens": 4909, "output_tokens": 255}
