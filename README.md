@@ -5,7 +5,7 @@ a RAG system are judged by measurement rather than by a few good-looking demos: 
 hypothesis before it runs, scored case by case on a versioned dataset, compared with honest statistics, and gated
 against regressions.
 
-The first system under test is [RAG Studio](../rag-studio) (grounded, abstaining question answering over private
+The first system under test is [RAG Studio](https://github.com/jbmateo/rag-studio) (grounded, abstaining question answering over private
 documents). Eval Lab reaches it only through a small adapter interface, so other systems can be plugged in.
 
 **Results so far are in [FINDINGS.md](FINDINGS.md)** — six hypotheses, a check that the regression gate works, and
@@ -56,7 +56,7 @@ chunks, answer sentences, citations, abstention, token usage, timings).
 
 ## Quickstart
 
-Requires Python 3.12, Node 20, and a checkout of `rag-studio` next to this folder (branch `feat/eval-hooks`).
+Requires Python 3.12, Node 20, and a checkout of [`rag-studio`](https://github.com/jbmateo/rag-studio) next to this folder (branch `main`).
 
 ```bash
 make install
