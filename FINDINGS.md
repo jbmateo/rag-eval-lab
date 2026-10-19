@@ -205,6 +205,21 @@ as within judge error.
   per-answer measure) before running; H4 was run with Haiku rather than Sonnet answering.
 - **Single runs.** No repeats; answer variance between identical runs is not measured.
 
+## RAG Studio commit IDs
+
+RAG Studio's history was rewritten on 2026-10-19 to change the commit author email; file contents are unchanged,
+but every commit ID changed. IDs cited above, in the experiment files, in `datasets/lumen/manifest.yaml` and in
+stored runs' `system_version` refer to the old IDs. Equivalent commits in the
+[public repository](https://github.com/jbmateo/rag-studio) (identical file trees):
+
+| cited (old) | current | commit |
+|---|---|---|
+| `8c829e1` | `a28bd32` | research: pre-register hypotheses H1-H4 before running experiments |
+| `f858310` | `c386dd3` | docs: tighten RQ1 wording |
+| `64ad8d8` | `bdda35d` | feat(answer): prompt variants and complete LLM cache key |
+| `e97f4e8` | `e4bdd09` | feat(answer): CachedLLM.has() for cost estimation — the system version every run above used |
+| `173b7a7` | `513cc45` | fix(answer): cache key follows the rendered user message and max_tokens |
+
 ## Spend
 
 | experiment | spent |

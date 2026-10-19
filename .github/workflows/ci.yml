@@ -11,13 +11,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           path: rag-eval-lab
-      # RAG Studio is the system under test; it is private, so this needs a read token.
+      # RAG Studio is the system under test (public; no token needed).
       - uses: actions/checkout@v4
         with:
           repository: jbmateo/rag-studio
-          ref: feat/eval-hooks
+          ref: main
           path: rag-studio
-          token: ${{ secrets.RAG_STUDIO_TOKEN }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
